@@ -1,9 +1,18 @@
 package com.ramanaptr.sampleezrecyclerview
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.View
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.ramanaptr.widget.EzRecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var rvSample: EzRecyclerView<SampleData>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,14 +23,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initComponent() {
-
+        rvSample = findViewById(R.id.rv_sample)
     }
 
     private fun initListener() {
-
+        btnRefresh.setOnClickListener {
+            initData()
+        }
     }
 
     private fun initData() {
+        // Start Shimmer for waiting for the data
+        rvSample.startShimmer(10)
+        handler.postDelayed(callback, 5000)
+    }
 
+    private val callback = {
+        val list = arrayListOf<SampleData>()
+        for (i in 1..100) {
+            list.add(SampleData("Key $i", "Value $i"))
+        }
+
+        // Re set view Holder
+        rvSample.setViewHolderLayout(R.layout.sample_view_holder, list, bindViewHolder)
+    }
+
+    private val bindViewHolder = { view: View, data: SampleData ->
+        val tvKey = view.findViewById<TextView>(R.id.tv_key)
+        val tvValue = view.findViewById<TextView>(R.id.tv_value)
+        tvKey.text = data.key
+        tvValue.text = data.value
     }
 }
