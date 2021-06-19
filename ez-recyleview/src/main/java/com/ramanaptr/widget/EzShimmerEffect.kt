@@ -61,5 +61,6 @@ class EzShimmerEffect<Data : Serializable?> : ShimmerFrameLayout {
     override fun hideShimmer() {
         super.hideShimmer()
         this.visibility = GONE
+        this.recycleView?.removeAll()
     }
 }

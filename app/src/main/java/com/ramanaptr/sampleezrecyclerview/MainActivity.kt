@@ -32,6 +32,9 @@ class MainActivity : AppCompatActivity() {
             initDataWithCustomShimmer()
             // initDataWithDefaultShimmer()
         }
+        stopShimmer.setOnClickListener {
+            rvSample.hideShimmer()
+        }
     }
 
     /**

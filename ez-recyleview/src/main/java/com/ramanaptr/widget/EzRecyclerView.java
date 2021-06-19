@@ -165,6 +165,10 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
         customShimmer.startShimmer(this, counts, shimmerLayout, shimmerViewId);
     }
 
+    public void hideShimmer() {
+        customShimmer.hideShimmer();
+    }
+
     public interface Listener<Obj extends Serializable> {
         void setDataOnViewHolder(@NonNull View itemView, @NonNull Obj data);
     }
