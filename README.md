@@ -17,7 +17,7 @@ allprojects {
 Adding Depedency on build.gralde
 ```
 dependencies {
-  implementation 'com.github.ramanaptr:ez-recyclerview:<latest-version>’
+  implementation 'com.github.ramanaptr:ez-recyclerview:<latest-version>'
 }
 ```
 
@@ -93,13 +93,47 @@ rvSample.setFlexBoxLayoutManager(FlexDirection.ROW) // Flexbox layout manager wi
 rvSample.setHorizontalLinearLayoutManager() // Default horizontal linear layout manager
 
 // or custom by you
-rvSample.setLayoutManager(); // Ez Recylerview allow you to custom your layout manager
+rvSample.setLayoutManager(); // Ez Recylerview allow you to custom your own layout manager
 ```
 
-Don't like a shimmer effect?
+Example XML Custom Layout Shimmer
+```
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Give an id of EzShimmerEffect, example: like this "@+id/sample_shimmer"-->
+<com.ramanaptr.widget.EzShimmerEffect xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sample_shimmer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:padding="2dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:background="@color/grey" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.ramanaptr.widget.EzShimmerEffect>
+```
+
+Example Implementation Custom Shimmer to binding the view id
+```
+// implement view id R.id.sample_shimmer mean of shimmer frame layout into param
+rvSample.startShimmer(10, R.layout.sample_shimmer_effect, R.id.sample_shimmer)
+```
+
+You won't use shimmer effect?
 ```
 // don't use this function every running
-rvSample.startShimmer(10)
+rvSample.startShimmer()
 ```
 
 Happy Coding, make it simple, fast and efficiency!! 💪
