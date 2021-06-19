@@ -14,7 +14,7 @@ allprojects {
 ```
 
 
-Add implementation Dependency into build.gralde
+Add implementation Dependency into build.gradle
 ```
 dependencies {
   implementation 'com.github.ramanaptr:ez-recyclerview:<latest-version>'
@@ -42,6 +42,7 @@ data class SampleData(
 Example Kotlin Code
 ```
 // For Generic Type on field/declare properties on the class, the class data must implement Serializable
+// Example data class: SampleData
 private lateinit var rvSample: EzRecyclerView<SampleData>
 
 // Use findViewById or Butterknife, because not working on kotlin synthetic
