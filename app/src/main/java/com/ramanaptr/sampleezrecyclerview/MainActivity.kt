@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initData() {
         // Start Shimmer for waiting for the data
-        rvSample.startShimmer(10)
+        rvSample.startShimmer(10, R.layout.sample_shimmer_effect, R.id.sample_shimmer)
         handler.postDelayed(callback, 5000)
     }
 

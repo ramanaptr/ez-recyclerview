@@ -62,7 +62,7 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
         setLayoutManager(flexboxLayoutManager);
     }
 
-    public void setFlexBoxLayoutManager(int flexDirection) {
+    public void setFlexBoxLayoutManager(@FlexDirection int flexDirection) {
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext(), flexDirection);
         setLayoutManager(flexboxLayoutManager);
     }
@@ -94,6 +94,19 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
         baseAdapter.setHasStableIds(true);
         setAdapter(baseAdapter);
         settingAnimator();
+    }
+
+    public void setViewHolderLayout(@LayoutRes int[] layouts, @NonNull List<Data> dataList, @NonNull Listener<Data> listener) {
+        if (layouts.length >= 3) {
+            throw new IllegalArgumentException("Layouts maximal is 2");
+        }
+
+        this.listener = listener;
+        baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, layouts);
+        baseAdapter.setHasStableIds(true);
+        setAdapter(baseAdapter);
+        settingAnimator();
+        replaceAll(dataList);
     }
 
     private void settingAnimator() {
@@ -149,6 +162,12 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
         setViewHolderLayout(shimmerLayout, (itemView, data) -> {
         });
         customShimmer.startShimmer(this, counts, shimmerLayout);
+    }
+
+    public void startShimmer(int counts, @LayoutRes int shimmerLayout, int shimmerViewId) {
+        setViewHolderLayout(shimmerLayout, (itemView, data) -> {
+        });
+        customShimmer.startShimmer(this, counts, shimmerLayout, shimmerViewId);
     }
 
     public interface Listener<Obj extends Serializable> {
