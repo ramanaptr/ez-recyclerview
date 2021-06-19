@@ -89,10 +89,10 @@ private val bindViewHolder = { view: View, data: SampleData ->
 
 Example Adding/Replace/Remove data also refresh the data
 ```
-rvSample.addAll(dataList) // Add all without another views position
-rvSample.add(data) // Add without remove another view position
-rvSample.replaceAll(dataList ) // Replace All views position
-rvSample.replace(data) // Replace a view position
+rvSample.addAll(dataList) // Add all data without remove/replace another views position
+rvSample.add(data) // Add data without remove/replace another view position
+rvSample.replaceAll(dataList ) // Replace All the same views position (data must be the same)
+rvSample.replace(data) // Replace a same view position (data must be the same)
 rvSample.removeAll() // Remove all views and data
 rvSample.remove(data) // Remove view and data
 rvSample.refresh() // Refresh when data not change yet
