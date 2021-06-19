@@ -47,7 +47,7 @@ private lateinit var rvSample: EzRecyclerView<SampleData>
 // Use findViewById or Butterknife, because not working on kotlin synthetic
 rvSample = findViewById(R.id.rv_sample)
 
-// 10 is the amount/size of shimmer view to showing
+// 10 is the amount/size of shimmer view to showing on loading
 rvSample.startShimmer(10)
 
 // Much overloading function, this function you can use every time when you want to load the data
@@ -140,4 +140,4 @@ Happy Coding, make it simple, fast and efficiency!! 💪
 
 Note: 
 Are you want to contribute this project? 
-Very welcome, DM me on my website, or report the issue, i'll try my best to fix it and maintenance this project 😁
+Very welcome, any question DM me on my website, or report the issue, i'll try my best to fix it and maintenance this project or answer your questions 😁
