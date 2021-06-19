@@ -3,7 +3,7 @@
 [![](https://jitpack.io/v/ramanaptr/ez-recyclerview.svg)](https://jitpack.io/#ramanaptr/ez-recyclerview)
 
 
-Adding Depedency build.gralde (classpath repositories)
+Adding Depedency build.gradle (classpath repositories)
 ```
 allprojects {
   repositories {
