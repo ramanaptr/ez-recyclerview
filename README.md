@@ -62,6 +62,8 @@ private val bindViewHolder = { view: View, data: SampleData ->
   tvValue.text = data.value
 }
 ```
+That's it.
+
 
 Example Kotlin Code for Multiple View
 ```
@@ -83,6 +85,14 @@ private val bindViewHolder = { view: View, data: SampleData ->
             tvValue2.text = data.value2
         }
     }
+```
+
+Example Adding/Replace/Remove data also refresh the data
+```
+rvSample.replaceAll()
+rvSample.add(data)
+rvSample.replace(data)
+rvSample.refresh()
 ```
 
 Implement the LayoutManager programmatically
