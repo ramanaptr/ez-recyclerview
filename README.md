@@ -81,4 +81,8 @@ Don't like shimmer effect?
 rvSample.startShimmer(10)
 ```
 
-Happy Coding, make it simple, fast and efficiency!!
+Happy Coding, make it simple, fast and efficiency!! 💪
+
+Note: 
+Are you want to contribute this project? 
+Very welcome, DM me on my website, or report issue, i'll try my best to fix and maintenance this project 😁
