@@ -3,7 +3,7 @@
 [![](https://jitpack.io/v/ramanaptr/ez-recyclerview.svg)](https://jitpack.io/#ramanaptr/ez-recyclerview)
 
 
-Adding Depedency build.gradle (classpath repositories)
+Add maven jitpack.io into build.gradle (classpath repositories)
 ```
 allprojects {
   repositories {
@@ -14,7 +14,7 @@ allprojects {
 ```
 
 
-Adding Depedency on build.gralde
+Add implementation Dependency into build.gralde
 ```
 dependencies {
   implementation 'com.github.ramanaptr:ez-recyclerview:<latest-version>'
@@ -41,7 +41,7 @@ data class SampleData(
 
 Example Kotlin Code
 ```
-// For Generic Type on field/declare properties on the class, the class data must be implement Serializable
+// For Generic Type on field/declare properties on the class, the class data must implement Serializable
 private lateinit var rvSample: EzRecyclerView<SampleData>
 
 // Use findViewById or Butterknife, because not working on kotlin synthetic
@@ -135,14 +135,14 @@ Hide Shimmer on Loading
 rvSample.hideShimmer()
 ```
 
-You won't use shimmer effect?
+You won't use the shimmer effect?
 ```
 // don't use this function every running
 rvSample.startShimmer()
 ```
 
-Happy Coding, make it simple, fast and efficiency!! 💪
+Happy Coding, make it simple, fast, and efficient!! 💪
 
 Note: 
-Are you want to contribute this project? 
-Very welcome, any question DM me on my website, or report the issue, i'll try my best to fix it and maintenance this project or answer your questions 😁
+Are you want to contribute to this project? 
+Very welcome, any question DM me on my website or report the issue, I'll try my best to fix it and maintain this project or answer your questions 😁
