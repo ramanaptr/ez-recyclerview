@@ -152,15 +152,16 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
         baseAdapter.refresh();
     }
 
-    public void startShimmer(int counts) {
+    public void startShimmer(@NonNull int counts) {
         setViewHolderLayout(R.layout.default_shimmer_ez_recyclerview, (itemView, data) -> {
         });
         customShimmer.startShimmer(this, counts, R.layout.default_shimmer_ez_recyclerview);
     }
 
-    public void startShimmer(int counts, @LayoutRes int shimmerLayout, int shimmerViewId) {
+    public void startShimmer(@NonNull int counts, @LayoutRes int shimmerLayout, @NonNull int shimmerViewId) {
         setViewHolderLayout(shimmerLayout, (itemView, data) -> {
         });
+
         customShimmer.startShimmer(this, counts, shimmerLayout, shimmerViewId);
     }
 

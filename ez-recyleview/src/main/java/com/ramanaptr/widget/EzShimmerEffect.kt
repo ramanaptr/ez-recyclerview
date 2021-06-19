@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.annotation.NonNull
 import com.facebook.shimmer.ShimmerFrameLayout
 import java.io.Serializable
 
@@ -20,7 +21,7 @@ class EzShimmerEffect<Data : Serializable?> : ShimmerFrameLayout {
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
 
-    fun startShimmer(recycleView: EzRecyclerView<Data>?, counts: Int, @LayoutRes layout: Int) {
+    fun startShimmer(@NonNull recycleView: EzRecyclerView<Data>?, @NonNull counts: Int, @NonNull @LayoutRes layout: Int) {
         this.recycleView = recycleView
         this.recycleView?.setViewHolderLayout(layout) { view: View, data: Data -> bindViewHolder(view, data) }
         initData(counts)
@@ -28,7 +29,7 @@ class EzShimmerEffect<Data : Serializable?> : ShimmerFrameLayout {
         super.startShimmer()
     }
 
-    fun startShimmer(recycleView: EzRecyclerView<Data>?, counts: Int, @LayoutRes layout: Int, shimmerViewId: Int) {
+    fun startShimmer(@NonNull recycleView: EzRecyclerView<Data>?, counts: Int, @NonNull @LayoutRes layout: Int, @NonNull shimmerViewId: Int) {
         this.shimmerViewId = when (shimmerViewId) {
             0 -> R.id.sfl
             else -> shimmerViewId

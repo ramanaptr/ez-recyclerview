@@ -19,7 +19,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initComponent()
         initListener()
-        initData()
+        initDataWithCustomShimmer()
+        // initDataWithDefaultShimmer() //TODO: Uncomment for test
     }
 
     private fun initComponent() {
@@ -28,13 +29,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun initListener() {
         btnRefresh.setOnClickListener {
-            initData()
+            initDataWithCustomShimmer()
+            // initDataWithDefaultShimmer()
         }
     }
 
-    private fun initData() {
+    /**
+     * Please to implement view id R.id.sample_shimmer mean of shimmer frame layout into param
+     * */
+    private fun initDataWithCustomShimmer() {
         // Start Shimmer for waiting for the data
         rvSample.startShimmer(10, R.layout.sample_shimmer_effect, R.id.sample_shimmer)
+        handler.postDelayed(callback, 5000)
+    }
+
+    private fun initDataWithDefaultShimmer() {
+        // Start Shimmer for waiting for the data
+        rvSample.startShimmer(10)
         handler.postDelayed(callback, 5000)
     }
 
