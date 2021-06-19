@@ -130,6 +130,11 @@ Example Implementation Custom Shimmer to binding the view id
 rvSample.startShimmer(10, R.layout.sample_shimmer_effect, R.id.sample_shimmer)
 ```
 
+Hide Shimmer on Loading
+```
+rvSample.hideShimmer()
+```
+
 You won't use shimmer effect?
 ```
 // don't use this function every running
