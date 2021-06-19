@@ -41,7 +41,7 @@ rvSample = findViewById(R.id.rv_sample)
 // 10 is the amount/size of shimmer view to showing
 rvSample.startShimmer(10)
 
-// Much overloading function, this function you can use when 
+// Much overloading function, this function you can use every time when you want to load the data
 rvSample.setViewHolderLayout(R.layout.sample_view_holder, dataList, bindViewHolder)
 
 // This is for bind the view holder and data object.
