@@ -9,7 +9,7 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import java.io.Serializable
 
 /**
- * BaseRecycleView V1.1-beta
+ * EzShimmerEffect
  * Created by ramanaptr
  * ShimmerFrameLayout created by Facebook
  */

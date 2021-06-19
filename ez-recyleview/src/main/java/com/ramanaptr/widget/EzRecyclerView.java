@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * BaseRecycleView V1.1-beta
+ * EzRecyclerView
  * Created by ramanaptr
  */
 public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
