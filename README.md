@@ -89,9 +89,11 @@ private val bindViewHolder = { view: View, data: SampleData ->
 
 Example Adding/Replace/Remove data also refresh the data
 ```
-rvSample.replaceAll()
 rvSample.add(data)
+rvSample.replaceAll(dataList)
 rvSample.replace(data)
+rvSample.removeAll()
+rvSample.remove(data)
 rvSample.refresh()
 ```
 
