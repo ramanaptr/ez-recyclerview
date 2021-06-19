@@ -68,16 +68,16 @@ Example Kotlin Code for Multiple View
 val layouts =  IntArray(2) {R.layout.sample_view_holder_1; R.layout.sample_view_holder_2}
 rvSample.setViewHolderLayout(layouts, bindViewHolder)
 
-// Handling for the data 1 and 2 using condition
+// Handling for the data 1 and 2 using safety condition
 private val bindViewHolder = { view: View, data: SampleData ->
-        if (data.key2.isEmpty()) {
-            val tvKey1 = view.findViewById<TextView>(R.id.tv_key1)
-            val tvValue1 = view.findViewById<TextView>(R.id.tv_value1)
+        val tvKey1 = view.findViewById<TextView>(R.id.tv_key1)
+        val tvValue1 = view.findViewById<TextView>(R.id.tv_value1)
+        val tvKey2 = view.findViewById<TextView>(R.id.tv_key2)
+        val tvValue2 = view.findViewById<TextView>(R.id.tv_value2)
+        if (tvKey1 != null) {
             tvKey1.text = data.key1
             tvValue1.text = data.value1
-        } else {
-            val tvKey2 = view.findViewById<TextView>(R.id.tv_key2)
-            val tvValue2 = view.findViewById<TextView>(R.id.tv_value2)
+        } else if(tvKey2 != null) {
             tvKey2.text = data.key2
             tvValue2.text = data.value2
         }
