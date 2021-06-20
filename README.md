@@ -56,10 +56,8 @@ rvSample.setViewHolderLayout(R.layout.sample_view_holder, dataList, bindViewHold
 
 // This is for bind the view holder and data object
 private val bindViewHolder = { view: View, data: SampleData ->
-  val tvKey = view.findViewById<TextView>(R.id.tv_key)
-  val tvValue = view.findViewById<TextView>(R.id.tv_value)
-  tvKey.text = data.key
-  tvValue.text = data.value
+  view.findViewById<TextView>(R.id.tv_key).apply { text = data.key }
+  view.findViewById<TextView>(R.id.tv_value).apply { text = data.value }
 }
 ```
 That's it.
@@ -73,25 +71,31 @@ rvSample.setViewHolderLayout(layouts, bindViewHolder)
 
 // Handling for the data 1 and 2 using safety condition
 private val bindViewHolder = { view: View, data: SampleData ->
-        val tvKey1 = view.findViewById<TextView>(R.id.tv_key1)
-        val tvValue1 = view.findViewById<TextView>(R.id.tv_value1)
-        val tvKey2 = view.findViewById<TextView>(R.id.tv_key2)
-        val tvValue2 = view.findViewById<TextView>(R.id.tv_value2)
-        if (tvKey1 != null) {
-            tvKey1.text = data.key1
-            tvValue1.text = data.value1
-        } else if(tvKey2 != null) {
-            tvKey2.text = data.key2
-            tvValue2.text = data.value2
+      val tvKey1 = view.findViewById<TextView>(R.id.tv_key1)
+      val tvValue1 = view.findViewById<TextView>(R.id.tv_value1)
+      val tvKey2 = view.findViewById<TextView>(R.id.tv_key2)
+      val tvValue2 = view.findViewById<TextView>(R.id.tv_value2)
+      
+      // Handling the layout 1 and 2 using condition, or you can create function with condition every layout 1 and 2
+      when {
+        tvKey1 != null && tvKey2 != null && data.key1 != null -> {
+          tvKey1.text = data.key1
+          tvValue1.text = data.value1
         }
+        tvKey1 != null && tvKey2 != null && data.key1 != null -> {
+          tvKey1.text = data.key1
+          tvValue1.text = data.value1
+        }
+        else -> {// TODO: your else condition}
     }
+}
 ```
 
 Example Adding/Replace/Remove data also refresh the data
 ```java
 rvSample.addAll(dataList) // Add all data without remove/replace another views position
 rvSample.add(data) // Add data without remove/replace another view position
-rvSample.replaceAll(dataList ) // Replace All the same views position (data must be the same)
+rvSample.replaceAll(dataList) // Replace All the same views position (data must be the same)
 rvSample.replace(data) // Replace a same view position (data must be the same)
 rvSample.removeAll() // Remove all views and data
 rvSample.remove(data) // Remove view and data
