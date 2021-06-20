@@ -22,7 +22,7 @@ dependencies {
 ```
 
 XML:
-```
+```xml
 <com.ramanaptr.widget.EzRecyclerView
   android:id="@+id/rv_sample"
   android:layout_width="match_parent"
@@ -31,7 +31,7 @@ XML:
 ```
 
 Example For the Data
-```
+```kotlin
 // You must do implement Serializable every create a data class and want to transaction with ez recylerview
 data class SampleData(
     var key: String,
@@ -40,7 +40,7 @@ data class SampleData(
 ```
 
 Example Kotlin Code
-```
+```kotlin
 // For Generic Type on field/declare properties on the class, the class data must implement Serializable
 // Example data class: SampleData
 private lateinit var rvSample: EzRecyclerView<SampleData>
@@ -66,7 +66,7 @@ That's it.
 
 
 Example Kotlin Code for Multiple View
-```
+```kotlin
 // Right now Ez RecyclerView handling only 2 layouts
 val layouts =  IntArray(2) {R.layout.sample_view_holder_1; R.layout.sample_view_holder_2}
 rvSample.setViewHolderLayout(layouts, bindViewHolder)
@@ -88,7 +88,7 @@ private val bindViewHolder = { view: View, data: SampleData ->
 ```
 
 Example Adding/Replace/Remove data also refresh the data
-```
+```java
 rvSample.addAll(dataList) // Add all data without remove/replace another views position
 rvSample.add(data) // Add data without remove/replace another view position
 rvSample.replaceAll(dataList ) // Replace All the same views position (data must be the same)
@@ -99,7 +99,7 @@ rvSample.refresh() // Refresh when data not change yet
 ```
 
 Implement the LayoutManager programmatically
-```
+```java
 rvSample.setDefaultLayoutManager() // Default layout manager
 rvSample.setGridLayoutManager(3) // Default grid layout with param span
 rvSample.setFlexBoxLayoutManager() // Default Flexbox layout manager
@@ -111,7 +111,7 @@ rvSample.setLayoutManager(); // Ez Recylerview allow you to custom your own layo
 ```
 
 Example XML Custom Layout Shimmer
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Give an id of EzShimmerEffect, example: like this "@+id/sample_shimmer"-->
 <com.ramanaptr.widget.EzShimmerEffect xmlns:android="http://schemas.android.com/apk/res/android"
@@ -139,18 +139,18 @@ Example XML Custom Layout Shimmer
 ```
 
 Example Implementation Custom Shimmer to binding the view id
-```
+```java
 // implement view id R.id.sample_shimmer mean of shimmer frame layout into param
 rvSample.startShimmer(10, R.layout.sample_shimmer_effect, R.id.sample_shimmer)
 ```
 
 Hide Shimmer on Loading
-```
+```java
 rvSample.hideShimmer()
 ```
 
 You won't use the shimmer effect?
-```
+```java
 // don't use this function every running
 rvSample.startShimmer()
 ```
