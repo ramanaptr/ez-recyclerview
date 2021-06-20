@@ -54,7 +54,7 @@ rvSample.startShimmer(10)
 // Much overloading function, this function you can use every time when you want to load the data
 rvSample.setViewHolderLayout(R.layout.sample_view_holder, dataList, bindViewHolder)
 
-// This is for bind the view holder and data object
+// The last step is implement the callback, this is for bind the view holder and data object
 private val bindViewHolder = { view: View, data: SampleData ->
   view.findViewById<TextView>(R.id.tv_key).apply { text = data.key }
   view.findViewById<TextView>(R.id.tv_value).apply { text = data.value }
@@ -86,7 +86,7 @@ private val bindViewHolder = { view: View, data: SampleData ->
           tvKey1.text = data.key1
           tvValue1.text = data.value1
         }
-        else -> {// TODO: your else condition}
+        else -> {} // TODO: your else condition
     }
 }
 ```
