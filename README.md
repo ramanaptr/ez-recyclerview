@@ -4,18 +4,17 @@
 
 
 Add maven jitpack.io into build.gradle (classpath repositories)
-```
+```gradle
 allprojects {
   repositories {
-    ...
     maven { url 'https://jitpack.io' }
-     }
+  }
 }
 ```
 
 
 Add implementation Dependency into build.gradle
-```
+```gradle
 dependencies {
   implementation 'com.github.ramanaptr:ez-recyclerview:<latest-version>'
 }
@@ -82,9 +81,9 @@ private val bindViewHolder = { view: View, data: SampleData ->
           tvKey1.text = data.key1
           tvValue1.text = data.value1
         }
-        tvKey1 != null && tvKey2 != null && data.key1 != null -> {
-          tvKey1.text = data.key1
-          tvValue1.text = data.value1
+        tvKey2 != null && tvKey2 != null && data.key2 != null -> {
+          tvKey2.text = data.key2
+          tvValue2.text = data.value2
         }
         else -> {} // TODO: your else condition
     }
