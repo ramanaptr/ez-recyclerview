@@ -161,6 +161,7 @@ rvSample.startShimmer()
 
 Happy Coding, make it simple, fast, and efficient!! 💪
 
-Note: 
-Are you want to contribute to this project? 
-Very welcome, any question DM me on my website or report the issue, I'll try my best to fix it and maintain this project or answer your questions 😁
+>Note: Are you want to contribute to this project? Very welcome, any question DM me on my website or report the issue, I'll try my best to fix it and maintain this project or answer your questions 😁
+
+## Inspired
+https://github.com/cs-app
