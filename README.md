@@ -77,11 +77,11 @@ private val bindViewHolder = { view: View, data: SampleData ->
       
       // Handling the layout 1 and 2 using condition, or you can create function with condition every layout 1 and 2
       when {
-        tvKey1 != null && tvKey2 != null && data.key1 != null -> {
+        tvKey1 != null && tvValue1 != null && data.key1 != null -> {
           tvKey1.text = data.key1
           tvValue1.text = data.value1
         }
-        tvKey2 != null && tvKey2 != null && data.key2 != null -> {
+        tvKey2 != null && tvValue2 != null && data.key2 != null -> {
           tvKey2.text = data.key2
           tvValue2.text = data.value2
         }
