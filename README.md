@@ -1,8 +1,6 @@
 # Ez Recycler View
 
-[![](https://jitpack.io/v/ramanaptr/ez-recyclerview.svg)](https://jitpack.io/#ramanaptr/ez-recyclerview)
-
-![visitors](https://visitor-badge.laobi.icu/badge?page_id=ramanaptr.ez-recyclerview)
+[![](https://jitpack.io/v/ramanaptr/ez-recyclerview.svg)](https://jitpack.io/#ramanaptr/ez-recyclerview) ![visitors](https://visitor-badge.laobi.icu/badge?page_id=ramanaptr.ez-recyclerview)
 
 Add maven jitpack.io into build.gradle (classpath repositories)
 ```gradle
