@@ -95,14 +95,13 @@ Example Kotlin Code for Multiple View
         // init the pagination after bind the view and declare it into field
         initPaginationEzRecyclerView()
 
-        // create a new object of "EzMultipleLayout" and set your view holder layout into the object
-        val ezMultipleLayout = EzMultipleLayout()
-        ezMultipleLayout.layout1 = R.layout.sample_view_holder_layout_one
-        ezMultipleLayout.layout2 = R.layout.sample_view_holder_layout_two
+        // set the layout before "setViewHolderLayout()"
+        rvSample.setLayout1(R.layout.sample_view_holder_layout_one)
+        rvSample.setLayout2(R.layout.sample_view_holder_layout_two)
 
-        // custom shimmer effect after that, bind the shimmer view layout R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
+        // set custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
         // and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
-        ezMultipleLayout.setCustomShimmerLayout(
+        rvSample.setCustomShimmerLayout(
             R.layout.sample_custom_shimmer_effect,
             R.id.sample_shimmer_view_id
         )
@@ -132,6 +131,24 @@ Example Kotlin Code for Multiple View
     }
 ```
 And, That's it.
+
+Another method for implemenation multiple view
+```
+  // create a new object of "EzMultipleLayout" and set your view holder layout into the object
+  val ezMultipleLayout = EzMultipleLayout()
+  ezMultipleLayout.layout1 = R.layout.sample_view_holder_layout_one
+  ezMultipleLayout.layout2 = R.layout.sample_view_holder_layout_two
+
+  // custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
+  // and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
+  ezMultipleLayout.setCustomShimmerLayout(
+      R.layout.sample_custom_shimmer_effect,
+      R.id.sample_shimmer_view_id
+  )
+
+  // store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
+  rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
+```
 
 ## Example for implemenation pagination
 ```kotlin
