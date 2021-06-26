@@ -106,8 +106,8 @@ Example Kotlin Code for Multiple View
             R.id.sample_shimmer_view_id
         )
 
-        // store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
-        rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData ->
+        // you can use "setViewHolderLayout" directly without "EzMultipleLayout" object
+        rvSample.setViewHolderLayout { view: View, data: SampleData ->
 
             // handle view by layout and check value of the data null
             // please take a note for your data, always to check value inside your object to avoid null exception
