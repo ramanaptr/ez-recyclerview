@@ -41,10 +41,11 @@ data class SampleData(
 Example Kotlin Code for Single Layout
 ```kotlin
     /**
-     * You must extend the object EzBaseData.
-     * Because method for managing multiple layout
+     * You must extend the object "EzBaseData".
+     * Because the object "EzBaseData" job for managing multiple layout
      * */
     private lateinit var rvSample: EzRecyclerView<SampleData>
+    
     private fun exampleEzRecycleSingleLayout() {
 
         // if you want use findViewById() you'll shouldn't cast the EzRecycleView
