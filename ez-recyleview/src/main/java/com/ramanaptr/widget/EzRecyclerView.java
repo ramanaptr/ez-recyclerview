@@ -97,34 +97,6 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         setLayoutManager(flexboxLayoutManager);
     }
 
-    public void setViewHolderLayout(@LayoutRes int layout, @NonNull Listener<Data> listener) {
-        if (baseAdapter == null) {
-            this.listener = listener;
-            final EzMultipleLayout ezMultipleLayout = new EzMultipleLayout();
-            ezMultipleLayout.setLayout1(layout);
-            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
-            baseAdapter.setHasStableIds(true);
-            setAdapter(baseAdapter);
-            settingAnimator();
-        }
-    }
-
-    public void setViewHolderLayout(@LayoutRes int layout, boolean isAdUnit, @NonNull Listener<Data> listener) {
-        if (baseAdapter == null) {
-            this.listener = listener;
-            final EzMultipleLayout ezMultipleLayout = new EzMultipleLayout();
-            if (isAdUnit) {
-                ezMultipleLayout.setLayoutAdUnit(layout);
-            } else {
-                ezMultipleLayout.setLayout1(layout);
-            }
-            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
-            baseAdapter.setHasStableIds(true);
-            setAdapter(baseAdapter);
-            settingAnimator();
-        }
-    }
-
     public void setViewHolderLayout(@NonNull Listener<Data> listener) {
         if (baseAdapter == null) {
             this.listener = listener;
@@ -139,6 +111,32 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     public void setViewHolderLayout(@NonNull EzMultipleLayout ezMultipleLayout, @NonNull Listener<Data> listener) {
         if (baseAdapter == null) {
             this.listener = listener;
+            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
+            baseAdapter.setHasStableIds(true);
+            setAdapter(baseAdapter);
+            settingAnimator();
+        }
+    }
+
+    public void setViewHolderLayout(@LayoutRes int layout, @NonNull Listener<Data> listener) {
+        if (baseAdapter == null) {
+            this.listener = listener;
+            ezMultipleLayout.setLayout1(layout);
+            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
+            baseAdapter.setHasStableIds(true);
+            setAdapter(baseAdapter);
+            settingAnimator();
+        }
+    }
+
+    public void setViewHolderLayout(@LayoutRes int layout, boolean isAdUnit, @NonNull Listener<Data> listener) {
+        if (baseAdapter == null) {
+            this.listener = listener;
+            if (isAdUnit) {
+                ezMultipleLayout.setLayoutAdUnit(layout);
+            } else {
+                ezMultipleLayout.setLayout1(layout);
+            }
             baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
             baseAdapter.setHasStableIds(true);
             setAdapter(baseAdapter);
@@ -334,27 +332,27 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     }
 
     public void setLayout2(@LayoutRes int layout2) {
-        ezMultipleLayout.setLayout1(layout2);
+        ezMultipleLayout.setLayout2(layout2);
     }
 
     public void setLayout3(@LayoutRes int layout3) {
-        ezMultipleLayout.setLayout1(layout3);
+        ezMultipleLayout.setLayout3(layout3);
     }
 
     public void setLayout4(@LayoutRes int layout4) {
-        ezMultipleLayout.setLayout1(layout4);
+        ezMultipleLayout.setLayout4(layout4);
     }
 
     public void setLayout5(@LayoutRes int layout5) {
-        ezMultipleLayout.setLayout1(layout5);
+        ezMultipleLayout.setLayout5(layout5);
     }
 
     public void setLayout6(@LayoutRes int layout6) {
-        ezMultipleLayout.setLayout1(layout6);
+        ezMultipleLayout.setLayout6(layout6);
     }
 
     public void setLayout7(@LayoutRes int layout7) {
-        ezMultipleLayout.setLayout1(layout7);
+        ezMultipleLayout.setLayout7(layout7);
     }
 
     public interface EzPaginationListener {
