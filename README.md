@@ -231,6 +231,10 @@ rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData ->
 
 Another Example Implementation Custom Shimmer to binding the view id
 ```kotlin
+  rvSample.setCustomShimmerLayout(
+      R.layout.sample_custom_shimmer_effect,
+      R.id.sample_shimmer_view_id
+  )
 ```
 
 Hide Shimmer on complete shoing the data
