@@ -133,7 +133,7 @@ Example Kotlin Code for Multiple View
 And, That's it.
 
 Another method for implemenation multiple view
-```
+```kotlin
   // create a new object of "EzMultipleLayout" and set your view holder layout into the object
   val ezMultipleLayout = EzMultipleLayout()
   ezMultipleLayout.layout1 = R.layout.sample_view_holder_layout_one
