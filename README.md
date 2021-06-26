@@ -1,8 +1,17 @@
 # Ez Recycler View
 
-[![](https://jitpack.io/v/ramanaptr/ez-recyclerview.svg)](https://jitpack.io/#ramanaptr/ez-recyclerview) ![GitHub all releases](https://img.shields.io/github/downloads/ramanaptr/ez-recyclerview/total) ![visitors](https://visitor-badge.laobi.icu/badge?page_id=ramanaptr.ez-recyclerview)
+<p align="center">
+  <img  src="https://github.com/ramanaptr/ez-recyclerview/blob/main/app/src/main/res/raw/example_ez_recyclerview.gif?raw=true" width="210" height="360"/> 
+</p>
+<p align="center">
+  <a href="https://jitpack.io/#ramanaptr/ez-recyclerview">
+    <img src="https://jitpack.io/v/ramanaptr/ez-recyclerview.svg" alt="jitpack - ez recyclerview" />
+  </a>
+  <img src="https://img.shields.io/github/downloads/ramanaptr/ez-recyclerview/total" alt="download - ez recyclerview" />
+  <img src="https://visitor-badge.laobi.icu/badge?page_id=ramanaptr.ez-recyclerview" alt="visitor - ez recyclerview" />
+</p>
 
-Add maven jitpack.io into build.gradle (classpath repositories)
+Add this to your project's `build.gradle`
 ```gradle
 allprojects {
   repositories {
@@ -12,7 +21,7 @@ allprojects {
 ```
 
 
-Add implementation Dependency into build.gradle
+Add implementation Dependency into your module's `build.gradle`
 ```gradle
 dependencies {
   implementation 'com.github.ramanaptr:ez-recyclerview:<latest-version>'
