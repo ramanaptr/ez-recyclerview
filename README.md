@@ -16,7 +16,6 @@
 </p>
 
 
-
 ## Setup
 
 Add this to your project's `build.gradle`
@@ -111,7 +110,7 @@ Example Kotlin Code for Multiple View
         // init the pagination after bind the view and declare it into field
         initPaginationEzRecyclerView()
 
-        // set the layout before "setViewHolderLayout()"
+        // set your view holder layout
         rvSample.setLayout1(R.layout.sample_view_holder_layout_one)
         rvSample.setLayout2(R.layout.sample_view_holder_layout_two)
 
