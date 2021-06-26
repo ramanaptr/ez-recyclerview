@@ -147,7 +147,7 @@ Example Kotlin Code for Multiple View
 ```
 And, That's it.
 
-Another method for implemenation multiple view
+Another method for implementation multiple view
 ```kotlin
   // create a new object of "EzMultipleLayout" and set your view holder layout into the object
   val ezMultipleLayout = EzMultipleLayout()
@@ -165,7 +165,7 @@ Another method for implemenation multiple view
   rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
 ```
 
-## Example for implemenation pagination
+## Example for implementation pagination
 ```kotlin
   /**
    * if you like using pagination, this method match for you.
@@ -234,8 +234,8 @@ rvSample.setHorizontalLinearLayoutManager() // Default horizontal linear layout 
 
 Example Implementation Custom Shimmer to binding the view id
 ```kotlin
-// you can use "setViewHolderLayout" directly without "EzMultipleLayout" object
-rvSample.setCustomShimmerLayout(
+// you can use "setViewHolderLayout" with "EzMultipleLayout" object
+ezMultipleLayout.setCustomShimmerLayout(
     R.layout.sample_custom_shimmer_effect,
     R.id.sample_shimmer_view_id
 )
