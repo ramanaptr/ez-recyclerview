@@ -1,5 +1,6 @@
 # Ez Recycler View
 
+## Preview and Introduction
 <p align="center">
   <img  src="https://github.com/ramanaptr/ez-recyclerview/blob/main/app/src/main/res/raw/example_ez_recyclerview.gif?raw=true" width="210" height="360"/> 
 </p>
@@ -9,6 +10,9 @@
   </a>
   <img src="https://img.shields.io/github/downloads/ramanaptr/ez-recyclerview/total" alt="download - ez recyclerview" />
   <img src="https://visitor-badge.laobi.icu/badge?page_id=ramanaptr.ez-recyclerview" alt="visitor - ez recyclerview" />
+  <br>
+  <br>
+  <p>Ez-RecycelerView is library that help android developer work with DRY (Don't Repeat Yourself) to make it easier when to create a basic recycler view. To create the recycler view sure to always repeat it, especially the ViewHolder and it's Adapter, so I decided to solve the problems, "Ez RecyclerView" library the main advantage, you can display a list of data without creating ViewHolders and Adapters repeatedly. Please for OOP programmers.. "DRY" contribute with me 👍 </p>
 </p>
 
 Add this to your project's `build.gradle`
