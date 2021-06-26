@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import java.util.List;
  */
 public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
 
+    private final EzMultipleLayout ezMultipleLayout = new EzMultipleLayout();
     private BaseAdapter<Data> baseAdapter;
     private Listener<Data> listener;
     private EzPaginationListener ezPaginationListener;
@@ -122,6 +124,17 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
             settingAnimator();
         }
     }
+
+    public void setViewHolderLayout(@NonNull Listener<Data> listener) {
+        if (baseAdapter == null) {
+            this.listener = listener;
+            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
+            baseAdapter.setHasStableIds(true);
+            setAdapter(baseAdapter);
+            settingAnimator();
+        }
+    }
+
 
     public void setViewHolderLayout(@NonNull EzMultipleLayout ezMultipleLayout, @NonNull Listener<Data> listener) {
         if (baseAdapter == null) {
@@ -302,6 +315,46 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
 
     public void flagOnLoading() {
         isRecyclerViewLoading = true;
+    }
+
+    public void setCustomShimmerLayout(@LayoutRes int layoutShimmer, @IdRes int shimmerViewId) {
+        ezMultipleLayout.setCustomShimmerLayout(layoutShimmer, shimmerViewId);
+    }
+
+    public void setLayoutAdUnit(@LayoutRes int layoutAdUnit) {
+        ezMultipleLayout.setLayoutAdUnit(layoutAdUnit);
+    }
+
+    public void setLayoutLoading(@LayoutRes int layoutLoading) {
+        ezMultipleLayout.setLayoutLoading(layoutLoading);
+    }
+
+    public void setLayout1(@LayoutRes int layout1) {
+        ezMultipleLayout.setLayout1(layout1);
+    }
+
+    public void setLayout2(@LayoutRes int layout2) {
+        ezMultipleLayout.setLayout1(layout2);
+    }
+
+    public void setLayout3(@LayoutRes int layout3) {
+        ezMultipleLayout.setLayout1(layout3);
+    }
+
+    public void setLayout4(@LayoutRes int layout4) {
+        ezMultipleLayout.setLayout1(layout4);
+    }
+
+    public void setLayout5(@LayoutRes int layout5) {
+        ezMultipleLayout.setLayout1(layout5);
+    }
+
+    public void setLayout6(@LayoutRes int layout6) {
+        ezMultipleLayout.setLayout1(layout6);
+    }
+
+    public void setLayout7(@LayoutRes int layout7) {
+        ezMultipleLayout.setLayout1(layout7);
     }
 
     public interface EzPaginationListener {
@@ -491,7 +544,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            throw new IllegalArgumentException("No layout found, please check your multiple layouts viewtype!");
+            throw new IllegalArgumentException("No layout found, please check your multiple layouts viewtype! Please to implement EzMultipleLayout properly");
         }
     }
 }
