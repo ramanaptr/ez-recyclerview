@@ -219,18 +219,18 @@ rvSample.setHorizontalLinearLayoutManager() // Default horizontal linear layout 
 
 Example Implementation Custom Shimmer to binding the view id
 ```kotlin
-// create a new object of "EzMultipleLayout" and set your view holder layout into the object
-val ezMultipleLayout = EzMultipleLayout()
-
-// custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
-// and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
-ezMultipleLayout.setCustomShimmerLayout(
+// you can use "setViewHolderLayout" directly without "EzMultipleLayout" object
+rvSample.setCustomShimmerLayout(
     R.layout.sample_custom_shimmer_effect,
     R.id.sample_shimmer_view_id
 )
 
 // store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
 rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
+```
+
+Another Example Implementation Custom Shimmer to binding the view id
+```kotlin
 ```
 
 Hide Shimmer on complete shoing the data
