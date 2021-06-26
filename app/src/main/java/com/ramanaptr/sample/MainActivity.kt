@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
             // please take a note for your data, always to check value inside your object to avoid null exception
             // example in the below
             view.findViewById<TextView>(R.id.tv_key_one).apply { data.key?.apply { text = this } }
-            view.findViewById<TextView>(R.id.tv_value_one).apply { data.key?.apply { text = this } }
+            view.findViewById<TextView>(R.id.tv_value_one).apply { data.value?.apply { text = this } }
 
         }
 
@@ -160,13 +160,13 @@ class MainActivity : AppCompatActivity() {
                     view.findViewById<TextView>(R.id.tv_key_one)
                         .apply { data.key?.apply { text = this } }
                     view.findViewById<TextView>(R.id.tv_value_one)
-                        .apply { data.key?.apply { text = this } }
+                        .apply { data.value?.apply { text = this } }
                 }
                 data.isLayout2 -> {
                     view.findViewById<TextView>(R.id.tv_key_two)
                         .apply { data.key?.apply { text = this } }
                     view.findViewById<TextView>(R.id.tv_value_two)
-                        .apply { data.key?.apply { text = this } }
+                        .apply { data.value?.apply { text = this } }
                 }
             }
 
