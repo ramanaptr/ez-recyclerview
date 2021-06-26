@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * turn "isSingleLayout" into "false" when you want to try multi layout stuff
      * */
-    private var isSingleLayout = true
+    private var isSingleLayout = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         // if you want use view binding you should to cast the object like the example below
         rvSample = binding.rvSample as EzRecyclerView<SampleData>
 
-        // example function for pagination on Ez-RecyclerView
+        // set example function for pagination on Ez-RecyclerView
         // init the pagination after bind the view and declare it into field
         initPaginationEzRecyclerView()
 
@@ -137,20 +137,20 @@ class MainActivity : AppCompatActivity() {
         // init the pagination after bind the view and declare it into field
         initPaginationEzRecyclerView()
 
-        // create a new object of "EzMultipleLayout" and set your view holder layout into the object
-        val ezMultipleLayout = EzMultipleLayout()
-        ezMultipleLayout.layout1 = R.layout.sample_view_holder_layout_one
-        ezMultipleLayout.layout2 = R.layout.sample_view_holder_layout_two
+        // set the layout before "setViewHolderLayout()"
+        rvSample.setLayout1(R.layout.sample_view_holder_layout_one)
+        rvSample.setLayout2(R.layout.sample_view_holder_layout_two)
 
-        // custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
+        // set custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
         // and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
-        ezMultipleLayout.setCustomShimmerLayout(
+        rvSample.setCustomShimmerLayout(
             R.layout.sample_custom_shimmer_effect,
             R.id.sample_shimmer_view_id
         )
 
         // store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
-        rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData ->
+        // please take a note, set the layouts before "setViewHolderLayout()" to avoid null exception
+        rvSample.setViewHolderLayout { view: View, data: SampleData ->
 
             // handle view by layout and check value of the data null
             // please take a note for your data, always to check value inside your object to avoid null exception
@@ -200,7 +200,7 @@ class MainActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
 
-                // populate the data into Ez-RecyclerView shimmer
+                // populate the data into Ez-RecyclerView
                 rvSample.addAll(it)
 
             }, {
@@ -250,7 +250,7 @@ class MainActivity : AppCompatActivity() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
 
-                // populate the data into Ez-RecyclerView shimmer
+                // populate the data into Ez-RecyclerView
                 rvSample.addAll(it)
 
             }, {
