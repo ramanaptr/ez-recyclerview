@@ -19,6 +19,8 @@ dependencies {
 }
 ```
 
+## Setup
+
 XML:
 ```xml
 <com.ramanaptr.widget.EzRecyclerView
@@ -30,67 +32,127 @@ XML:
 
 Example For the Data
 ```kotlin
-// You must do implement Serializable every create a data class and want to transaction with ez recylerview
 data class SampleData(
-    var key: String,
-    var value: String,
-) : Serializable
+    var key: String? = null,
+    var value: String? = null,
+) : EzBaseData()
 ```
 
-Example Kotlin Code
+Example Kotlin Code for Single Layout
 ```kotlin
-// For Generic Type on field/declare properties on the class, the class data must implement Serializable
-// Example data class: SampleData
-private lateinit var rvSample: EzRecyclerView<SampleData>
+    /**
+     * You must extend the object EzBaseData.
+     * Because method for managing multiple layout
+     * */
+    private lateinit var rvSample: EzRecyclerView<SampleData>
+    private fun exampleEzRecycleSingleLayout() {
 
-// Use findViewById or Butterknife, because not working on kotlin synthetic
-rvSample = findViewById(R.id.rv_sample)
+        // if you want use findViewById() you'll shouldn't cast the EzRecycleView
+        // if you want use view binding you should to cast the object like the example below
+        rvSample = binding.rvSample as EzRecyclerView<SampleData>
 
-// 10 is the amount/size of shimmer view to showing on loading
-rvSample.startShimmer(10)
+        // example function for pagination on Ez-RecyclerView
+        // init the pagination after bind the view and declare it into field
+        initPaginationEzRecyclerView()
 
-// Much overloading function, this function you can use every time when you want to load the data
-rvSample.setViewHolderLayout(R.layout.sample_view_holder, dataList, bindViewHolder)
+        // set your view holder layout
+        rvSample.setViewHolderLayout(R.layout.sample_view_holder_layout_one) { view: View, data: SampleData ->
 
-// The last step is implement the callback, this is for bind the view holder and data object
-private val bindViewHolder = { view: View, data: SampleData ->
-  view.findViewById<TextView>(R.id.tv_key).apply { text = data.key }
-  view.findViewById<TextView>(R.id.tv_value).apply { text = data.value }
-}
+            // handle view by layout and check value of the data null
+            // please take a note for your data, always to check value inside your object to avoid null exception
+            // example in the below
+            view.findViewById<TextView>(R.id.tv_key_one).apply { data.key?.apply { text = this } }
+            view.findViewById<TextView>(R.id.tv_value_one).apply { data.key?.apply { text = this } }
+
+        }
+    }
+    
+    private fun exampleDataForSingleLayout(size: Int) {
+        // start shimmer when load the data
+        // please to use your empty object like SampleData()
+        rvSample.startShimmer(size, SampleData())
+
+        // start load the data
+        // populate the data into Ez-RecyclerView
+        rvSample.addAll(dataList)
+
+        // hide the shimmer after the data showing
+        rvSample.hideShimmer()
+    }
 ```
 That's it.
 
 
 Example Kotlin Code for Multiple View
 ```kotlin
-// Right now Ez RecyclerView handling only 2 layouts
-val layouts =  IntArray(2) {R.layout.sample_view_holder_1; R.layout.sample_view_holder_2}
-rvSample.setViewHolderLayout(layouts, bindViewHolder)
+    private fun exampleEzRecycleMultipleLayout() {
 
-// Handling for the data 1 and 2 using safety condition
-private val bindViewHolder = { view: View, data: SampleData ->
-      val tvKey1 = view.findViewById<TextView>(R.id.tv_key1)
-      val tvValue1 = view.findViewById<TextView>(R.id.tv_value1)
-      val tvKey2 = view.findViewById<TextView>(R.id.tv_key2)
-      val tvValue2 = view.findViewById<TextView>(R.id.tv_value2)
-      
-      // Handling the layout 1 and 2 using condition, or you can create function with condition every layout 1 and 2
-      when {
-        tvKey1 != null && tvValue1 != null && data.key1 != null -> {
-          tvKey1.text = data.key1
-          tvValue1.text = data.value1
+        // if you want use findViewById() you'll shouldn't cast the EzRecycleView
+        // if you want use view binding you should to cast the object like the example below
+        rvSample = binding.rvSample as EzRecyclerView<SampleData>
+
+        // example function for pagination on Ez-RecyclerView
+        // init the pagination after bind the view and declare it into field
+        initPaginationEzRecyclerView()
+
+        // create a new object of "EzMultipleLayout" and set your view holder layout into the object
+        val ezMultipleLayout = EzMultipleLayout()
+        ezMultipleLayout.layout1 = R.layout.sample_view_holder_layout_one
+        ezMultipleLayout.layout2 = R.layout.sample_view_holder_layout_two
+
+        // custom shimmer effect after that, bind the shimmer view layout R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
+        // and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
+        ezMultipleLayout.setCustomShimmerLayout(
+            R.layout.sample_custom_shimmer_effect,
+            R.id.sample_shimmer_view_id
+        )
+
+        // store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
+        rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData ->
+
+            // handle view by layout and check value of the data null
+            // please take a note for your data, always to check value inside your object to avoid null exception
+            // example in the below
+            when {
+                data.isLayout1 -> {
+                    view.findViewById<TextView>(R.id.tv_key_one)
+                        .apply { data.key?.apply { text = this } }
+                    view.findViewById<TextView>(R.id.tv_value_one)
+                        .apply { data.key?.apply { text = this } }
+                }
+                data.isLayout2 -> {
+                    view.findViewById<TextView>(R.id.tv_key_two)
+                        .apply { data.key?.apply { text = this } }
+                    view.findViewById<TextView>(R.id.tv_value_two)
+                        .apply { data.key?.apply { text = this } }
+                }
+            }
+
         }
-        tvKey2 != null && tvValue2 != null && data.key2 != null -> {
-          tvKey2.text = data.key2
-          tvValue2.text = data.value2
-        }
-        else -> {} // TODO: your else condition
     }
-}
+```
+And, That's it.
+
+## Example for implemenation pagination
+```kotlin
+  /**
+   * if you like using pagination, this method match for you.
+   * "setEzPaginationListener()" for the paging your page from local DB, remote data such as API or others
+   * You can setting with your own "limit", "offset"
+   * "currentPage" is automatically increment for the next page after you scrolling down or scrolling horizontal
+   * */
+   
+   // 5 is mean initial limit, and 0 is mean initial offset
+   // on "newOffset" mean next offset, and on "currentPage" next of the page
+  private fun initPaginationEzRecyclerView() {
+      rvSample.setEzPaginationListener(5, 0) { limit: Int, newOffset: Int, currentPage: Int ->
+          exampleDataForSingleLayout(newOffset)
+      }
+  }
 ```
 
-Example Adding/Replace/Remove data also refresh the data
-```java
+## Adding/Replace/Remove data also refresh the data
+```kotlin
 rvSample.addAll(dataList) // Add all data without remove/replace another views position
 rvSample.add(data) // Add data without remove/replace another view position
 rvSample.replaceAll(dataList) // Replace All the same views position (data must be the same)
@@ -98,21 +160,19 @@ rvSample.replace(data) // Replace a same view position (data must be the same)
 rvSample.removeAll() // Remove all views and data
 rvSample.remove(data) // Remove view and data
 rvSample.refresh() // Refresh when data not change yet
+rvSample.destroy() // Destroy the object on field and reset the value
 ```
 
-Implement the LayoutManager programmatically
-```java
+## Implement the LayoutManager programmatically
+```kotlin
 rvSample.setDefaultLayoutManager() // Default layout manager
 rvSample.setGridLayoutManager(3) // Default grid layout with param span
 rvSample.setFlexBoxLayoutManager() // Default Flexbox layout manager
 rvSample.setFlexBoxLayoutManager(FlexDirection.ROW) // Flexbox layout manager with param FlexDirection interface
 rvSample.setHorizontalLinearLayoutManager() // Default horizontal linear layout manager
-
-// or custom by you
-rvSample.setLayoutManager(); // Ez Recylerview allow you to custom your own layout manager
 ```
 
-Example XML Custom Layout Shimmer
+## Example XML Custom Layout Shimmer
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Give an id of EzShimmerEffect, example: like this "@+id/sample_shimmer"-->
@@ -141,18 +201,28 @@ Example XML Custom Layout Shimmer
 ```
 
 Example Implementation Custom Shimmer to binding the view id
-```java
-// implement view id R.id.sample_shimmer mean of shimmer frame layout into param
-rvSample.startShimmer(10, R.layout.sample_shimmer_effect, R.id.sample_shimmer)
+```kotlin
+// create a new object of "EzMultipleLayout" and set your view holder layout into the object
+val ezMultipleLayout = EzMultipleLayout()
+
+// custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
+// and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
+ezMultipleLayout.setCustomShimmerLayout(
+    R.layout.sample_custom_shimmer_effect,
+    R.id.sample_shimmer_view_id
+)
+
+// store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
+rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
 ```
 
-Hide Shimmer on Loading
-```java
+Hide Shimmer on complete shoing the data
+```kotlin
 rvSample.hideShimmer()
 ```
 
 You won't use the shimmer effect?
-```java
+```kotlin
 // don't use this function every running
 rvSample.startShimmer()
 ```
