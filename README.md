@@ -231,6 +231,7 @@ rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData ->
 
 Another Example Implementation Custom Shimmer to binding the view id
 ```kotlin
+// you can use "setViewHolderLayout" directly without "EzMultipleLayout" object
   rvSample.setCustomShimmerLayout(
       R.layout.sample_custom_shimmer_effect,
       R.id.sample_shimmer_view_id
