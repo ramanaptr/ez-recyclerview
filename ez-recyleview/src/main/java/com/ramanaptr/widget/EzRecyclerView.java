@@ -13,10 +13,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
+import com.ramanaptr.widget.constant.EzViewType;
+import com.ramanaptr.widget.model.EzBaseData;
+import com.ramanaptr.widget.model.EzMultipleLayout;
 
-import java.io.Serializable;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +29,19 @@ import java.util.List;
  * EzRecyclerView
  * Created by ramanaptr
  */
-public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
+public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
 
-    private final EzShimmerEffect<Data> customShimmer = new EzShimmerEffect<>(getContext());
     private BaseAdapter<Data> baseAdapter;
     private Listener<Data> listener;
+    private EzPaginationListener ezPaginationListener;
+    private boolean isFirstLoadEzRecyclerView = true;
+    private int tempShimmerSize = 0;
+    private int startShimmerSize = 0;
+    private int endShimmerSize = 0;
+    private boolean isRecyclerViewLoading = true;
+    private int offset = 0;
+    private int limit = 0;
+    private int currentPage = 0;
 
     public EzRecyclerView(@NonNull Context context) {
         super(context);
@@ -40,6 +53,21 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
 
     public EzRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public void destroy() {
+        flagEzRecyclerViewFirstLoad();
+        flagOnLoading();
+        removeOnScrollListener(onScrollListener);
+        ezPaginationListener = null;
+        baseAdapter = null;
+        listener = null;
+        tempShimmerSize = 0;
+        startShimmerSize = 0;
+        endShimmerSize = 0;
+        offset = 0;
+        limit = 0;
+        currentPage = 0;
     }
 
     public void setDefaultLayoutManager() {
@@ -67,54 +95,70 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
         setLayoutManager(flexboxLayoutManager);
     }
 
-    public void setViewHolderLayout(@LayoutRes int layout, @NonNull List<Data> dataList, @NonNull Listener<Data> listener) {
-        this.listener = listener;
-        baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, layout);
-        baseAdapter.setHasStableIds(true);
-        setAdapter(baseAdapter);
-        settingAnimator();
-        replaceAll(dataList);
-    }
-
     public void setViewHolderLayout(@LayoutRes int layout, @NonNull Listener<Data> listener) {
-        this.listener = listener;
-        baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, layout);
-        baseAdapter.setHasStableIds(true);
-        setAdapter(baseAdapter);
-        settingAnimator();
+        if (baseAdapter == null) {
+            this.listener = listener;
+            final EzMultipleLayout ezMultipleLayout = new EzMultipleLayout();
+            ezMultipleLayout.setLayout1(layout);
+            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
+            baseAdapter.setHasStableIds(true);
+            setAdapter(baseAdapter);
+            settingAnimator();
+        }
     }
 
-    public void setViewHolderLayout(@LayoutRes int[] layouts, @NonNull Listener<Data> listener) {
-        if (layouts.length >= 3) {
-            throw new IllegalArgumentException("Layouts maximal is 2");
+    public void setViewHolderLayout(@LayoutRes int layout, boolean isAdUnit, @NonNull Listener<Data> listener) {
+        if (baseAdapter == null) {
+            this.listener = listener;
+            final EzMultipleLayout ezMultipleLayout = new EzMultipleLayout();
+            if (isAdUnit) {
+                ezMultipleLayout.setLayoutAdUnit(layout);
+            } else {
+                ezMultipleLayout.setLayout1(layout);
+            }
+            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
+            baseAdapter.setHasStableIds(true);
+            setAdapter(baseAdapter);
+            settingAnimator();
         }
-
-        this.listener = listener;
-        baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, layouts);
-        baseAdapter.setHasStableIds(true);
-        setAdapter(baseAdapter);
-        settingAnimator();
     }
 
-    public void setViewHolderLayout(@LayoutRes int[] layouts, @NonNull List<Data> dataList, @NonNull Listener<Data> listener) {
-        if (layouts.length >= 3) {
-            throw new IllegalArgumentException("Layouts maximal is 2");
+    public void setViewHolderLayout(@NonNull EzMultipleLayout ezMultipleLayout, @NonNull Listener<Data> listener) {
+        if (baseAdapter == null) {
+            this.listener = listener;
+            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
+            baseAdapter.setHasStableIds(true);
+            setAdapter(baseAdapter);
+            settingAnimator();
         }
+    }
 
-        this.listener = listener;
-        baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, layouts);
-        baseAdapter.setHasStableIds(true);
-        setAdapter(baseAdapter);
-        settingAnimator();
-        replaceAll(dataList);
+    public void startShimmer(int shimmerSize, Data data) {
+        if (isFirstLoadEzRecyclerView) {
+            this.startShimmerSize = baseAdapter.getItemCount();
+            this.endShimmerSize = shimmerSize;
+            this.tempShimmerSize = shimmerSize;
+            List<Data> shimmer = new ArrayList<>();
+            for (int i = 0; i < shimmerSize; i++) {
+                data.setEzViewType(EzViewType.SHIMMER_EFFECT);
+                shimmer.add(data);
+            }
+            addAll(shimmer);
+            flagEzRecyclerViewFirstLoadDone();
+            flagOnLoading();
+        }
+    }
+
+    public void hideShimmer() {
+        if (endShimmerSize > 0) {
+            baseAdapter.removeRange(startShimmerSize, (endShimmerSize + startShimmerSize));
+            endShimmerSize = 0;
+        }
+        resetShimmer();
+        flagCompleteLoading();
     }
 
     private void settingAnimator() {
-//        final SimpleItemAnimator simpleItemAnimator = ((SimpleItemAnimator) getItemAnimator());
-//        if (simpleItemAnimator != null) {
-//            simpleItemAnimator.setSupportsChangeAnimations(false);
-//        }
-//        setItemAnimator(new Slide());
     }
 
     public void add(@NonNull Data data) {
@@ -152,50 +196,144 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
         baseAdapter.refresh();
     }
 
-    public void startShimmer(@NonNull int counts) {
-        setViewHolderLayout(R.layout.default_shimmer_ez_recyclerview, (itemView, data) -> {
-        });
-        customShimmer.startShimmer(this, counts, R.layout.default_shimmer_ez_recyclerview);
+    public void resetAllViewsAndShimmer() {
+        offset = 0;
+        limit = 0;
+        endShimmerSize = tempShimmerSize;
+        flagOnLoading();
+        flagEzRecyclerViewFirstLoad();
+        removeAll();
+        removeAllViews();
     }
 
-    public void startShimmer(@NonNull int counts, @LayoutRes int shimmerLayout, @NonNull int shimmerViewId) {
-        setViewHolderLayout(shimmerLayout, (itemView, data) -> {
-        });
-
-        customShimmer.startShimmer(this, counts, shimmerLayout, shimmerViewId);
+    public void resetShimmer() {
+        flagEzRecyclerViewFirstLoad();
+        endShimmerSize = tempShimmerSize;
     }
 
-    public void hideShimmer() {
-        customShimmer.hideShimmer();
+    public void setEzPaginationListener(EzPaginationListener ezPaginationListener) {
+        addOnScrollListener(onScrollListener);
+        this.ezPaginationListener = ezPaginationListener;
+        this.offset = 0;
+        this.limit = 0;
+        this.currentPage = 0;
     }
 
-    public interface Listener<Obj extends Serializable> {
+    public void setEzPaginationListener(int initialLimit, int initialOffset, EzPaginationListener ezPaginationListener) {
+        addOnScrollListener(onScrollListener);
+        this.ezPaginationListener = ezPaginationListener;
+        this.offset = initialOffset;
+        this.limit = initialLimit;
+    }
+
+    private final OnScrollListener onScrollListener = new OnScrollListener() {
+
+        int pastVisibleItems, visibleItemCount, totalItemCount;
+
+        @Override
+        public void onScrolled(@NotNull RecyclerView recyclerView, int horizontalScrollScore, int verticalScrollScore) {
+            if (verticalScrollScore > 0) {
+                LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager instanceof LinearLayoutManager) {
+                    LinearLayoutManager mLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    if (mLayoutManager == null) return;
+
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+                } else if (layoutManager instanceof FlexboxLayoutManager) {
+                    LinearLayoutManager mLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    if (mLayoutManager == null) return;
+
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+                }
+
+                if (!isRecyclerViewLoading) {
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                        isRecyclerViewLoading = true;
+                        offset += limit;
+                        currentPage++;
+                        ezPaginationListener.onNext(limit, offset, currentPage);
+                    }
+                }
+            } else if (horizontalScrollScore > 0) {
+                LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager instanceof LinearLayoutManager) {
+                    LinearLayoutManager mLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    if (mLayoutManager == null) return;
+
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+                } else if (layoutManager instanceof FlexboxLayoutManager) {
+                    LinearLayoutManager mLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    if (mLayoutManager == null) return;
+
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+                }
+
+                if (!isRecyclerViewLoading) {
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                        isRecyclerViewLoading = true;
+                        offset += limit;
+                        currentPage++;
+                        ezPaginationListener.onNext(limit, offset, currentPage);
+                    }
+                }
+            }
+        }
+    };
+
+    private void flagEzRecyclerViewFirstLoad() {
+        isFirstLoadEzRecyclerView = true;
+    }
+
+    private void flagEzRecyclerViewFirstLoadDone() {
+        isFirstLoadEzRecyclerView = false;
+    }
+
+    public void flagCompleteLoading() {
+        isRecyclerViewLoading = false;
+    }
+
+    public void flagOnLoading() {
+        isRecyclerViewLoading = true;
+    }
+
+    public interface EzPaginationListener {
+        void onNext(int limit, int newOffset, int currentPage);
+    }
+
+    public interface Listener<Obj extends EzBaseData> {
         void setDataOnViewHolder(@NonNull View itemView, @NonNull Obj data);
     }
 
-    private final static class BaseAdapter<Data extends Serializable> extends Adapter<BaseViewHolder> {
+    private final static class BaseAdapter<Data extends EzBaseData> extends Adapter<BaseViewHolder> {
 
-        private final Listener<Data> listener;
-        private final List<Data> dataList;
-        private int layout;
-        private int[] layouts;
-
-        public BaseAdapter(
-                @NonNull Listener<Data> listener,
-                @LayoutRes int layout
-        ) {
-            this.dataList = new ArrayList<>();
-            this.listener = listener;
-            this.layout = layout;
+        private final static class ListData<Data> extends ArrayList<Data> {
+            @Override
+            protected void removeRange(int fromIndex, int toIndex) {
+                if (toIndex > fromIndex && this.size() >= toIndex) {
+                    super.removeRange(fromIndex, toIndex);
+                }
+            }
         }
 
+        private final Listener<Data> listener;
+        private final ListData<Data> dataList;
+        private final EzMultipleLayout ezMultipleLayout;
+
         public BaseAdapter(
                 @NonNull Listener<Data> listener,
-                @NonNull int[] layouts
+                @NonNull EzMultipleLayout ezMultipleLayout
         ) {
-            this.dataList = new ArrayList<>();
+            this.dataList = new ListData<>();
             this.listener = listener;
-            this.layouts = layouts;
+            this.ezMultipleLayout = ezMultipleLayout;
         }
 
         public void add(@NonNull Data data) {
@@ -239,13 +377,44 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
             notifyDataSetChanged();
         }
 
+        public void removeRange(int min, int max) {
+            if (dataList.size() > max) {
+                this.dataList.removeRange(min, max);
+                notifyItemRangeRemoved(min, max);
+            }
+        }
+
         public void refresh() {
             notifyDataSetChanged();
         }
 
         @Override
         public int getItemViewType(int position) {
-            return position % 2 * 2;
+            Data data = dataList.get(position);
+
+            // Check ViewType If Available
+            if (data.getEzViewType() == EzViewType.LAYOUT_1) {
+                return EzViewType.LAYOUT_1.getViewType();
+            } else if (data.getEzViewType() == EzViewType.LAYOUT_2) {
+                return EzViewType.LAYOUT_2.getViewType();
+            } else if (data.getEzViewType() == EzViewType.LAYOUT_3) {
+                return EzViewType.LAYOUT_3.getViewType();
+            } else if (data.getEzViewType() == EzViewType.LAYOUT_4) {
+                return EzViewType.LAYOUT_4.getViewType();
+            } else if (data.getEzViewType() == EzViewType.LAYOUT_5) {
+                return EzViewType.LAYOUT_5.getViewType();
+            } else if (data.getEzViewType() == EzViewType.LAYOUT_6) {
+                return EzViewType.LAYOUT_6.getViewType();
+            } else if (data.getEzViewType() == EzViewType.LAYOUT_7) {
+                return EzViewType.LAYOUT_7.getViewType();
+            } else if (data.getEzViewType() == EzViewType.AD_UNIT) {
+                return EzViewType.AD_UNIT.getViewType();
+            } else if (data.getEzViewType() == EzViewType.LOADING) {
+                return EzViewType.LOADING.getViewType();
+            }
+
+            // Default
+            return EzViewType.SHIMMER_EFFECT.getViewType();
         }
 
         @Override
@@ -256,17 +425,28 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
         @NonNull
         @Override
         public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            if (layouts == null) {
-                return BaseViewHolder.newInstance(parent, layout);
-            }
-
-            switch (viewType) {
-                case 0:
-                    return BaseViewHolder.newInstance(parent, layouts[0]);
-                case 2:
-                    return BaseViewHolder.newInstance(parent, layouts[1]);
-                default:
-                    return new BaseViewHolder(new View(parent.getContext()));
+            // Populate condition by view type
+            if (viewType == EzViewType.LAYOUT_1.getViewType()) {
+                return BaseViewHolder.newInstance(parent, ezMultipleLayout.getLayout1());
+            } else if (viewType == EzViewType.LAYOUT_2.getViewType()) {
+                return BaseViewHolder.newInstance(parent, ezMultipleLayout.getLayout2());
+            } else if (viewType == EzViewType.LAYOUT_3.getViewType()) {
+                return BaseViewHolder.newInstance(parent, ezMultipleLayout.getLayout3());
+            } else if (viewType == EzViewType.LAYOUT_4.getViewType()) {
+                return BaseViewHolder.newInstance(parent, ezMultipleLayout.getLayout4());
+            } else if (viewType == EzViewType.LAYOUT_5.getViewType()) {
+                return BaseViewHolder.newInstance(parent, ezMultipleLayout.getLayout5());
+            } else if (viewType == EzViewType.LAYOUT_6.getViewType()) {
+                return BaseViewHolder.newInstance(parent, ezMultipleLayout.getLayout6());
+            } else if (viewType == EzViewType.LAYOUT_7.getViewType()) {
+                return BaseViewHolder.newInstance(parent, ezMultipleLayout.getLayout7());
+            } else if (viewType == EzViewType.AD_UNIT.getViewType()) {
+                return BaseViewHolder.newInstance(parent, ezMultipleLayout.getLayoutAdUnit());
+            } else if (viewType == EzViewType.LOADING.getViewType()) {
+                return BaseViewHolder.newInstance(parent, ezMultipleLayout.getLayoutLoading());
+            } else {
+                // Default
+                return BaseViewHolder.newInstance(parent, ezMultipleLayout.getCustomShimmerLayout());
             }
         }
 
@@ -275,6 +455,16 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
             holder.setIsRecyclable(false);
             final Data data = dataList.get(position);
             listener.setDataOnViewHolder(holder.itemView, data);
+            startShimmerItem(holder, data);
+        }
+
+        private boolean startShimmerItem(BaseViewHolder holder, Data data) {
+            if (data.isCustomShimmerLayout() && ezMultipleLayout.getShimmerViewId() > 0) {
+                ShimmerFrameLayout shimmerEffect = holder.itemView.findViewById(ezMultipleLayout.getShimmerViewId());
+                shimmerEffect.startShimmer();
+                return true;
+            }
+            return false;
         }
 
         @Override
@@ -282,22 +472,26 @@ public class EzRecyclerView<Data extends Serializable> extends RecyclerView {
             return dataList.size();
         }
 
-        public interface Listener<Obj extends Serializable> {
+        public interface Listener<Obj extends EzBaseData> {
             void setDataOnViewHolder(@NonNull View itemView, Obj data);
         }
 
     }
 
-    private final static class BaseViewHolder extends RecyclerView.ViewHolder {
+    private final static class BaseViewHolder extends ViewHolder {
 
         public BaseViewHolder(@NonNull View itemView) {
             super(itemView);
         }
 
         public static BaseViewHolder newInstance(@NonNull ViewGroup parent, @LayoutRes int layout) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
-            return new BaseViewHolder(view);
+            try {
+                View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
+                return new BaseViewHolder(view);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            throw new IllegalArgumentException("No layout found, please check your multiple layouts viewtype!");
         }
     }
-
 }

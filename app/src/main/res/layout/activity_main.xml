@@ -6,28 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Refresh"
-        android:textAllCaps="false"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/stopShimmer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Stop Shimmer"
-        android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/btnRefresh" />
-
-    <com.ramanaptr.widget.EzRecyclerView
-        android:id="@+id/rv_sample"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stopShimmer"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.ramanaptr.widget.EzRecyclerView
+            android:id="@+id/rv_sample"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
