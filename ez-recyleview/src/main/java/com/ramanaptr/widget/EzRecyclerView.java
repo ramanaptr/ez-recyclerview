@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
 
-    private final EzMultipleLayout ezMultipleLayout = new EzMultipleLayout();
+    private EzMultipleLayout ezMultipleLayout = new EzMultipleLayout();
     private BaseAdapter<Data> baseAdapter;
     private Listener<Data> listener;
     private EzPaginationListener ezPaginationListener;
@@ -47,14 +47,26 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
 
     public EzRecyclerView(@NonNull Context context) {
         super(context);
+        initComponent();
     }
 
     public EzRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initComponent();
     }
 
     public EzRecyclerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initComponent();
+    }
+
+    private void initComponent() {
+        if (baseAdapter == null) {
+            baseAdapter = new BaseAdapter<>(ezMultipleLayout);
+            baseAdapter.setHasStableIds(true);
+            setAdapter(baseAdapter);
+            settingAnimator();
+        }
     }
 
     public void destroy() {
@@ -70,6 +82,37 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         offset = 0;
         limit = 0;
         currentPage = 0;
+    }
+
+    public void setViewHolderLayout(@NonNull Listener<Data> listener) {
+        this.listener = listener;
+        baseAdapter.setListener(listener::setDataOnViewHolder);
+        baseAdapter.setEzMultipleLayout(ezMultipleLayout);
+    }
+
+    public void setViewHolderLayout(@NonNull EzMultipleLayout ezMultipleLayout, @NonNull Listener<Data> listener) {
+        this.listener = listener;
+        this.ezMultipleLayout = ezMultipleLayout;
+        baseAdapter.setListener(listener::setDataOnViewHolder);
+        baseAdapter.setEzMultipleLayout(ezMultipleLayout);
+    }
+
+    public void setViewHolderLayout(@LayoutRes int layout, @NonNull Listener<Data> listener) {
+        this.listener = listener;
+        ezMultipleLayout.setLayout1(layout);
+        baseAdapter.setListener(listener::setDataOnViewHolder);
+        baseAdapter.setEzMultipleLayout(ezMultipleLayout);
+    }
+
+    public void setViewHolderLayout(@LayoutRes int layout, boolean isAdUnit, @NonNull Listener<Data> listener) {
+        this.listener = listener;
+        if (isAdUnit) {
+            ezMultipleLayout.setLayoutAdUnit(layout);
+        } else {
+            ezMultipleLayout.setLayout1(layout);
+        }
+        baseAdapter.setListener(listener::setDataOnViewHolder);
+        baseAdapter.setEzMultipleLayout(ezMultipleLayout);
     }
 
     public void setDefaultLayoutManager() {
@@ -95,53 +138,6 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     public void setFlexBoxLayoutManager(@FlexDirection int flexDirection) {
         FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(getContext(), flexDirection);
         setLayoutManager(flexboxLayoutManager);
-    }
-
-    public void setViewHolderLayout(@NonNull Listener<Data> listener) {
-        if (baseAdapter == null) {
-            this.listener = listener;
-            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
-            baseAdapter.setHasStableIds(true);
-            setAdapter(baseAdapter);
-            settingAnimator();
-        }
-    }
-
-
-    public void setViewHolderLayout(@NonNull EzMultipleLayout ezMultipleLayout, @NonNull Listener<Data> listener) {
-        if (baseAdapter == null) {
-            this.listener = listener;
-            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
-            baseAdapter.setHasStableIds(true);
-            setAdapter(baseAdapter);
-            settingAnimator();
-        }
-    }
-
-    public void setViewHolderLayout(@LayoutRes int layout, @NonNull Listener<Data> listener) {
-        if (baseAdapter == null) {
-            this.listener = listener;
-            ezMultipleLayout.setLayout1(layout);
-            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
-            baseAdapter.setHasStableIds(true);
-            setAdapter(baseAdapter);
-            settingAnimator();
-        }
-    }
-
-    public void setViewHolderLayout(@LayoutRes int layout, boolean isAdUnit, @NonNull Listener<Data> listener) {
-        if (baseAdapter == null) {
-            this.listener = listener;
-            if (isAdUnit) {
-                ezMultipleLayout.setLayoutAdUnit(layout);
-            } else {
-                ezMultipleLayout.setLayout1(layout);
-            }
-            baseAdapter = new BaseAdapter<>(listener::setDataOnViewHolder, ezMultipleLayout);
-            baseAdapter.setHasStableIds(true);
-            setAdapter(baseAdapter);
-            settingAnimator();
-        }
     }
 
     public void startShimmer(int shimmerSize, Data data) {
@@ -374,18 +370,25 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
             }
         }
 
-        private final Listener<Data> listener;
         private final ListData<Data> dataList;
-        private final EzMultipleLayout ezMultipleLayout;
+        private Listener<Data> listener;
+        private EzMultipleLayout ezMultipleLayout;
 
         public BaseAdapter(
-                @NonNull Listener<Data> listener,
                 @NonNull EzMultipleLayout ezMultipleLayout
         ) {
             this.dataList = new ListData<>();
-            this.listener = listener;
             this.ezMultipleLayout = ezMultipleLayout;
         }
+
+        public void setListener(Listener<Data> listener) {
+            this.listener = listener;
+        }
+
+        public void setEzMultipleLayout(EzMultipleLayout ezMultipleLayout) {
+            this.ezMultipleLayout = ezMultipleLayout;
+        }
+
 
         public void add(@NonNull Data data) {
             this.dataList.add(data);
@@ -542,7 +545,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            throw new IllegalArgumentException("No layout found, please check your multiple layouts viewtype! Please to implement EzMultipleLayout properly");
+            throw new IllegalArgumentException("No layout found, please check your multiple layouts viewType and data! Please to implement setLayout(); method properly");
         }
     }
 }

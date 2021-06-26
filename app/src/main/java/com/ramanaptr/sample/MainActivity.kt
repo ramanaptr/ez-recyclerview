@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ramanaptr.sample.databinding.ActivityMainBinding
 import com.ramanaptr.widget.EzRecyclerView
 import com.ramanaptr.widget.constant.EzViewType
-import com.ramanaptr.widget.model.EzMultipleLayout
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
@@ -119,7 +118,8 @@ class MainActivity : AppCompatActivity() {
             // please take a note for your data, always to check value inside your object to avoid null exception
             // example in the below
             view.findViewById<TextView>(R.id.tv_key_one).apply { data.key?.apply { text = this } }
-            view.findViewById<TextView>(R.id.tv_value_one).apply { data.value?.apply { text = this } }
+            view.findViewById<TextView>(R.id.tv_value_one)
+                .apply { data.value?.apply { text = this } }
 
         }
 
@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity() {
         // init the pagination after bind the view and declare it into field
         initPaginationEzRecyclerView()
 
-        // set the layout before "setViewHolderLayout()"
+        // set the your layout
         rvSample.setLayout1(R.layout.sample_view_holder_layout_one)
         rvSample.setLayout2(R.layout.sample_view_holder_layout_two)
 
@@ -149,7 +149,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         // store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
-        // please take a note, set the layouts before "setViewHolderLayout()" to avoid null exception
         rvSample.setViewHolderLayout { view: View, data: SampleData ->
 
             // handle view by layout and check value of the data null
