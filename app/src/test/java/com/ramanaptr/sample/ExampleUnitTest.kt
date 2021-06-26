@@ -1,4 +1,4 @@
-package com.ramanaptr.sampleezrecyclerview
+package com.ramanaptr.sample
 
 import org.junit.Test
 
