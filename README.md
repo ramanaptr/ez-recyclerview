@@ -263,7 +263,7 @@ Start Shimmer on complete showing the data
 rvSample.hideShimmer(10, SampleData())
 ```
 
-Hide Shimmer on complete showing the data
+Hide Shimmer on start showing the data (on loading)
 ```kotlin
 rvSample.hideShimmer()
 ```
