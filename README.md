@@ -310,7 +310,7 @@ You won't use the shimmer effect?
 rvSample.startShimmer()
 ```
 
-Important! Always call function destroy to avoid memory leak or error
+Important! Always call function destroy to avoid memory leak or error state
 ```    
 override fun onDestroy() {
   super.onDestroy()
