@@ -256,14 +256,14 @@ rvSample.setCustomShimmerLayout(
 rvSample.setViewHolderLayout { view: View, data: SampleData -> {} }
 ```
 
-Start Shimmer on complete showing the data
+Start Shimmer on loading the data
 ```kotlin
 // 10 is the size view on shimmer effect, and "SampleData" for empty object from EzRecyclerView<SampleData>
 // please do take a note for "Sample Data" is extend/inheritance from "Ez BaseData"
 rvSample.hideShimmer(10, SampleData())
 ```
 
-Hide Shimmer on start showing the data (on loading)
+Hide Shimmer on complete showing the data
 ```kotlin
 rvSample.hideShimmer()
 ```
