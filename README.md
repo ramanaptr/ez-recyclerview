@@ -54,133 +54,133 @@ data class SampleData(
 
 Example Kotlin Code for Single Layout
 ```kotlin
-    /**
-     * You must extend the object "EzBaseData".
-     * Because the object "EzBaseData" job for managing multiple layout
-     * */
-    private lateinit var rvSample: EzRecyclerView<SampleData>
-    
-    private fun exampleEzRecycleSingleLayout() {
+/**
+ * You must extend the object "EzBaseData".
+ * Because the object "EzBaseData" job for managing multiple layout
+ * */
+private lateinit var rvSample: EzRecyclerView<SampleData>
 
-        // if you want use findViewById() you shouldn't cast the EzRecycleView
-        // if you want use view binding you should to cast the object like the example below
-        rvSample = binding.rvSample as EzRecyclerView<SampleData>
+private fun exampleEzRecycleSingleLayout() {
 
-        // example function for pagination on Ez-RecyclerView
-        // init the pagination after bind the view and declare it into field
-        initPaginationEzRecyclerView()
+    // if you want use findViewById() you shouldn't cast the EzRecycleView
+    // if you want use view binding you should to cast the object like the example below
+    rvSample = binding.rvSample as EzRecyclerView<SampleData>
 
-        // set your view holder layout
-        rvSample.setViewHolderLayout(R.layout.sample_view_holder_layout_one) { view: View, data: SampleData ->
+    // example function for pagination on Ez-RecyclerView
+    // init the pagination after bind the view and declare it into field
+    initPaginationEzRecyclerView()
 
-            // handle view by layout and check value of the data null
-            // please do take a note for your data, always to check value inside your object to avoid null exception
-            // example in the below
-            view.findViewById<TextView>(R.id.tv_key_one).apply { data.key?.apply { text = this } }
-            view.findViewById<TextView>(R.id.tv_value_one).apply { data.value?.apply { text = this } }
+    // set your view holder layout
+    rvSample.setViewHolderLayout(R.layout.sample_view_holder_layout_one) { view: View, data: SampleData ->
 
-        }
+        // handle view by layout and check value of the data null
+        // please do take a note for your data, always to check value inside your object to avoid null exception
+        // example in the below
+        view.findViewById<TextView>(R.id.tv_key_one).apply { data.key?.apply { text = this } }
+        view.findViewById<TextView>(R.id.tv_value_one).apply { data.value?.apply { text = this } }
+
     }
-    
-    private fun exampleDataForSingleLayout(size: Int) {
-        // start shimmer when load the data
-        // please to use your empty object like SampleData()
-        rvSample.startShimmer(size, SampleData())
+}
 
-        // start load the data
-        // populate the data into Ez-RecyclerView
-        rvSample.addAll(dataList)
+private fun exampleDataForSingleLayout(size: Int) {
+    // start shimmer when load the data
+    // please to use your empty object like SampleData()
+    rvSample.startShimmer(size, SampleData())
 
-        // hide the shimmer after the data showing
-        rvSample.hideShimmer()
-    }
+    // start load the data
+    // populate the data into Ez-RecyclerView
+    rvSample.addAll(dataList)
+
+    // hide the shimmer after the data showing
+    rvSample.hideShimmer()
+}
 ```
 That's it.
 
 
 Example Kotlin Code for Multiple View
 ```kotlin
-    private fun exampleEzRecycleMultipleLayout() {
+private fun exampleEzRecycleMultipleLayout() {
 
-        // if you want use findViewById() you shouldn't cast the EzRecycleView
-        // if you want use view binding you should to cast the object like the example below
-        rvSample = binding.rvSample as EzRecyclerView<SampleData>
+    // if you want use findViewById() you shouldn't cast the EzRecycleView
+    // if you want use view binding you should to cast the object like the example below
+    rvSample = binding.rvSample as EzRecyclerView<SampleData>
 
-        // example function for pagination on Ez-RecyclerView
-        // init the pagination after bind the view and declare it into field
-        initPaginationEzRecyclerView()
+    // example function for pagination on Ez-RecyclerView
+    // init the pagination after bind the view and declare it into field
+    initPaginationEzRecyclerView()
 
-        // set your view holder layout
-        rvSample.setLayout1(R.layout.sample_view_holder_layout_one)
-        rvSample.setLayout2(R.layout.sample_view_holder_layout_two)
+    // set your view holder layout
+    rvSample.setLayout1(R.layout.sample_view_holder_layout_one)
+    rvSample.setLayout2(R.layout.sample_view_holder_layout_two)
 
-        // set custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
-        // and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
-        rvSample.setCustomShimmerLayout(
-            R.layout.sample_custom_shimmer_effect,
-            R.id.sample_shimmer_view_id
-        )
+    // set custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
+    // and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
+    rvSample.setCustomShimmerLayout(
+        R.layout.sample_custom_shimmer_effect,
+        R.id.sample_shimmer_view_id
+    )
 
-        // you can use "setViewHolderLayout" directly without "EzMultipleLayout" object
-        rvSample.setViewHolderLayout { view: View, data: SampleData ->
+    // you can use "setViewHolderLayout" directly without "EzMultipleLayout" object
+    rvSample.setViewHolderLayout { view: View, data: SampleData ->
 
-            // handle view by layout and check value of the data null
-            // please do take a note for your data, always to check value inside your object to avoid null exception
-            // example in the below
-            when {
-                data.isLayout1 -> {
-                    view.findViewById<TextView>(R.id.tv_key_one)
-                        .apply { data.key?.apply { text = this } }
-                    view.findViewById<TextView>(R.id.tv_value_one)
-                        .apply { data.value?.apply { text = this } }
-                }
-                data.isLayout2 -> {
-                    view.findViewById<TextView>(R.id.tv_key_two)
-                        .apply { data.key?.apply { text = this } }
-                    view.findViewById<TextView>(R.id.tv_value_two)
-                        .apply { data.value?.apply { text = this } }
-                }
+        // handle view by layout and check value of the data null
+        // please do take a note for your data, always to check value inside your object to avoid null exception
+        // example in the below
+        when {
+            data.isLayout1 -> {
+                view.findViewById<TextView>(R.id.tv_key_one)
+                    .apply { data.key?.apply { text = this } }
+                view.findViewById<TextView>(R.id.tv_value_one)
+                    .apply { data.value?.apply { text = this } }
             }
-
+            data.isLayout2 -> {
+                view.findViewById<TextView>(R.id.tv_key_two)
+                    .apply { data.key?.apply { text = this } }
+                view.findViewById<TextView>(R.id.tv_value_two)
+                    .apply { data.value?.apply { text = this } }
+            }
         }
+
     }
+}
 ```
 And, That's it.
 
 Another method for implementation multiple view
 ```kotlin
-  // create a new object of "EzMultipleLayout" and set your view holder layout into the object
-  val ezMultipleLayout = EzMultipleLayout()
-  ezMultipleLayout.layout1 = R.layout.sample_view_holder_layout_one
-  ezMultipleLayout.layout2 = R.layout.sample_view_holder_layout_two
+// create a new object of "EzMultipleLayout" and set your view holder layout into the object
+val ezMultipleLayout = EzMultipleLayout()
+ezMultipleLayout.layout1 = R.layout.sample_view_holder_layout_one
+ezMultipleLayout.layout2 = R.layout.sample_view_holder_layout_two
 
-  // custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
-  // and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
-  ezMultipleLayout.setCustomShimmerLayout(
-      R.layout.sample_custom_shimmer_effect,
-      R.id.sample_shimmer_view_id
-  )
+// custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
+// and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
+ezMultipleLayout.setCustomShimmerLayout(
+    R.layout.sample_custom_shimmer_effect,
+    R.id.sample_shimmer_view_id
+)
 
-  // store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
-  rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
+// store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
+rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
 ```
 
 ## Example for implementation pagination
 ```kotlin
-  /**
-   * if you like using pagination, this method match for you.
-   * "setEzPaginationListener()" for the paging your page from local DB, remote data such as API or others
-   * You can setting with your own "limit", "offset"
-   * "currentPage" is automatically increment for the next page after you scrolling down or scrolling horizontal
-   * */
-   
-   // 5 is mean initial limit, and 0 is mean initial offset
-   // on "newOffset" mean next offset, and on "currentPage" next of the page
-  private fun initPaginationEzRecyclerView() {
-      rvSample.setEzPaginationListener(5, 0) { limit: Int, newOffset: Int, currentPage: Int ->
-          exampleDataForSingleLayout(newOffset)
-      }
-  }
+/**
+ * if you like using pagination, this method match for you.
+ * "setEzPaginationListener()" for the paging your page from local DB, remote data such as API or others
+ * You can setting with your own "limit", "offset"
+ * "currentPage" is automatically increment for the next page after you scrolling down or scrolling horizontal
+ * */
+
+ // 5 is mean initial limit, and 0 is mean initial offset
+ // on "newOffset" mean next offset, and on "currentPage" next of the page
+private fun initPaginationEzRecyclerView() {
+    rvSample.setEzPaginationListener(5, 0) { limit: Int, newOffset: Int, currentPage: Int ->
+        exampleDataForSingleLayout(newOffset)
+    }
+}
 ```
 
 ## Adding/Replace/Remove data also refresh the data
