@@ -12,7 +12,7 @@
   <img src="https://visitor-badge.laobi.icu/badge?page_id=ramanaptr.ez-recyclerview" alt="visitor - ez recyclerview" />
   <br>
   <br>
-  <p>Ez-RecyclerView is library that help android developer work with DRY (Don't Repeat Yourself) to make it easier when to create a basic recycler view. To create the recycler view sure to always repeat it, especially the ViewHolder and it's Adapter, so I decided to solve the problems, "Ez RecyclerView" library the main advantage, you can display a list of data without creating ViewHolders and Adapters repeatedly. Please for OOP programmers.. "DRY" contribute with me 👍 </p>
+  <p>Ez-RecyclerView is library that help android developer work with DRY (Don't Repeat Yourself) to make it easier when to create a basic recycler view. To create the recycler view sure to always repeat it, especially the ViewHolder and it's Adapter, so I decided to solve the problems, "Ez RecyclerView" library the main advantage, you can display a list of data without creating ViewHolders and Adapters repeatedly. C'mon, contribute with me 👍 </p>
 </p>
 
 
@@ -62,7 +62,7 @@ Example Kotlin Code for Single Layout
     
     private fun exampleEzRecycleSingleLayout() {
 
-        // if you want use findViewById() you'll shouldn't cast the EzRecycleView
+        // if you want use findViewById() you shouldn't cast the EzRecycleView
         // if you want use view binding you should to cast the object like the example below
         rvSample = binding.rvSample as EzRecyclerView<SampleData>
 
@@ -74,7 +74,7 @@ Example Kotlin Code for Single Layout
         rvSample.setViewHolderLayout(R.layout.sample_view_holder_layout_one) { view: View, data: SampleData ->
 
             // handle view by layout and check value of the data null
-            // please take a note for your data, always to check value inside your object to avoid null exception
+            // please do take a note for your data, always to check value inside your object to avoid null exception
             // example in the below
             view.findViewById<TextView>(R.id.tv_key_one).apply { data.key?.apply { text = this } }
             view.findViewById<TextView>(R.id.tv_value_one).apply { data.value?.apply { text = this } }
@@ -102,7 +102,7 @@ Example Kotlin Code for Multiple View
 ```kotlin
     private fun exampleEzRecycleMultipleLayout() {
 
-        // if you want use findViewById() you'll shouldn't cast the EzRecycleView
+        // if you want use findViewById() you shouldn't cast the EzRecycleView
         // if you want use view binding you should to cast the object like the example below
         rvSample = binding.rvSample as EzRecyclerView<SampleData>
 
@@ -125,7 +125,7 @@ Example Kotlin Code for Multiple View
         rvSample.setViewHolderLayout { view: View, data: SampleData ->
 
             // handle view by layout and check value of the data null
-            // please take a note for your data, always to check value inside your object to avoid null exception
+            // please do take a note for your data, always to check value inside your object to avoid null exception
             // example in the below
             when {
                 data.isLayout1 -> {
@@ -256,7 +256,14 @@ rvSample.setCustomShimmerLayout(
 rvSample.setViewHolderLayout { view: View, data: SampleData -> {} }
 ```
 
-Hide Shimmer on complete shoing the data
+Start Shimmer on complete showing the data
+```kotlin
+// 10 is the size view on shimmer effect, and "SampleData" for empty object from EzRecyclerView<SampleData>
+// please do take a note for "Sample Data" is extend/inheritance from "Ez BaseData"
+rvSample.hideShimmer(10, SampleData())
+```
+
+Hide Shimmer on complete showing the data
 ```kotlin
 rvSample.hideShimmer()
 ```
