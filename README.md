@@ -161,7 +161,7 @@ private fun exampleHandlingDataMultipleLayout(size: Int) {
       // example handling data using ezViewType in layout 2
       // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
       // handling every layout is manually with your own condition for example "isLayoutTwo", after that set for the ezViewType using "EzViewType"
-      val isLayoutTwo = i % 2 == 0 // example for display layout data 2 every 3 times
+      val isLayoutTwo = i % 3 == 0 // example for display layout data 2 every 3 times
       if (isLayoutTwo) {
           val sampleDataTwo = SampleData("- Sub Key $i", "Sub Value $i")
           sampleDataTwo.ezViewType = EzViewType.LAYOUT_2
