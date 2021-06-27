@@ -65,6 +65,9 @@ private fun exampleEzRecycleSingleLayout() {
     // if you want use findViewById() you shouldn't cast the EzRecycleView
     // if you want use view binding you should to cast the object like the example below
     rvSample = binding.rvSample as EzRecyclerView<SampleData>
+    
+    // set empty object like example "SampleData" when you use for shimmer effect, to avoid exception
+    rvSample.setData(SampleData())
 
     // example function for pagination on Ez-RecyclerView
     // init the pagination after bind the view and declare it into field
@@ -85,7 +88,8 @@ private fun exampleEzRecycleSingleLayout() {
 private fun exampleDataForSingleLayout(size: Int) {
     // start shimmer when load the data
     // please to use your empty object like SampleData()
-    rvSample.startShimmer(size, SampleData())
+    // rvSample.startShimmer(size, SampleData()) // Alternative
+    rvSample.startShimmer(size)
 
     // start load the data
     // populate the data into Ez-RecyclerView
@@ -105,6 +109,9 @@ private fun exampleEzRecycleMultipleLayout() {
     // if you want use findViewById() you shouldn't cast the EzRecycleView
     // if you want use view binding you should to cast the object like the example below
     rvSample = binding.rvSample as EzRecyclerView<SampleData>
+    
+    // set empty object like example "SampleData" when you use for shimmer effect, to avoid exception
+    rvSample.setData(SampleData())
 
     // example function for pagination on Ez-RecyclerView
     // init the pagination after bind the view and declare it into field
@@ -260,7 +267,8 @@ Start Shimmer on loading the data
 ```kotlin
 // 10 is the size view on shimmer effect, and "SampleData" for empty object from EzRecyclerView<SampleData>
 // please do take a note for "Sample Data" is extend/inheritance from "Ez BaseData"
-rvSample.hideShimmer(10, SampleData())
+rvSample.startShimmer(size, SampleData()) // Alternative
+rvSample.startShimmer(size) // Recommended 
 ```
 
 Hide Shimmer on complete showing the data
