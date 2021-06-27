@@ -153,25 +153,29 @@ private fun exampleEzRecycleMultipleLayout() {
 }
 
 private fun exampleHandlingDataMultipleLayout(size: Int) {
-  for (i in 1..size) {
 
-    // example handling data using ezViewType in layout 2
-    // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
-    // handling every layout is manually with your own condition for example "isLayoutTwo", after that set for the ezViewType using "EzViewType"
-    val isLayoutTwo = i % 2 == 0 // example for display layout data 2 every 3 times
-    if (isLayoutTwo) {
-        val sampleDataTwo = SampleData("- Sub Key $i", "Sub Value $i")
-        sampleDataTwo.ezViewType = EzViewType.LAYOUT_2
-        add(sampleDataTwo)
-        continue
+  // populate the data list
+  val dataList = arrayListOf<SampleData>().apply {
+    for (i in 1..size) {
+
+      // example handling data using ezViewType in layout 2
+      // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
+      // handling every layout is manually with your own condition for example "isLayoutTwo", after that set for the ezViewType using "EzViewType"
+      val isLayoutTwo = i % 2 == 0 // example for display layout data 2 every 3 times
+      if (isLayoutTwo) {
+          val sampleDataTwo = SampleData("- Sub Key $i", "Sub Value $i")
+          sampleDataTwo.ezViewType = EzViewType.LAYOUT_2
+          add(sampleDataTwo)
+          continue
+      }
+
+      // example handling data using ezViewType in layout 1
+      // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
+      // after that set for the ezViewType using "EzViewType"
+      val sampleDataOne = SampleData("Key $i", "Value $i")
+      sampleDataOne.ezViewType = EzViewType.LAYOUT_1
+      add(sampleDataOne)
     }
-
-    // example handling data using ezViewType in layout 1
-    // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
-    // after that set for the ezViewType using "EzViewType"
-    val sampleDataOne = SampleData("Key $i", "Value $i")
-    sampleDataOne.ezViewType = EzViewType.LAYOUT_1
-    add(sampleDataOne)
   }
 }
 ```
