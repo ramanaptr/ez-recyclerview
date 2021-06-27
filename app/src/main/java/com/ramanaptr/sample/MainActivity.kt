@@ -107,6 +107,9 @@ class MainActivity : AppCompatActivity() {
         // if you want use view binding you should to cast the object like the example below
         rvSample = binding.rvSample as EzRecyclerView<SampleData>
 
+        // set empty object like example "SampleData" when you use for shimmer effect, to avoid exception
+        rvSample.setData(SampleData())
+
         // set example function for pagination on Ez-RecyclerView
         // init the pagination after bind the view and declare it into field
         initPaginationEzRecyclerView()
@@ -132,6 +135,9 @@ class MainActivity : AppCompatActivity() {
         // if you want use findViewById() you'll shouldn't cast the EzRecycleView
         // if you want use view binding you should to cast the object like the example below
         rvSample = binding.rvSample as EzRecyclerView<SampleData>
+
+        // set empty object like example "SampleData" when you use for shimmer effect, to avoid exception
+        rvSample.setData(SampleData())
 
         // example function for pagination on Ez-RecyclerView
         // init the pagination after bind the view and declare it into field
@@ -178,7 +184,8 @@ class MainActivity : AppCompatActivity() {
     private fun exampleDataForSingleLayout(size: Int) {
         // start shimmer when load the data
         // please to use your empty object like SampleData()
-        rvSample.startShimmer(size, SampleData())
+        // rvSample.startShimmer(size, SampleData()) // Alternative
+        rvSample.startShimmer(size)
 
         // start load the data
         subscribe = Flowable.create<List<SampleData>>({
@@ -215,7 +222,8 @@ class MainActivity : AppCompatActivity() {
     private fun exampleDataForMultipleLayout(size: Int) {
         // start shimmer when load the data
         // please to use your empty object like SampleData()
-        rvSample.startShimmer(size, SampleData())
+        // rvSample.startShimmer(size, SampleData()) // Alternative
+        rvSample.startShimmer(size)
 
         // start load the data
         subscribe = Flowable.create<List<SampleData>>({

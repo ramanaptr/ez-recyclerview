@@ -44,6 +44,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     private int offset = 0;
     private int limit = 0;
     private int currentPage = 0;
+    private Data data;
 
     public EzRecyclerView(@NonNull Context context) {
         super(context);
@@ -76,12 +77,17 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         ezPaginationListener = null;
         baseAdapter = null;
         listener = null;
+        data = null;
         tempShimmerSize = 0;
         startShimmerSize = 0;
         endShimmerSize = 0;
         offset = 0;
         limit = 0;
         currentPage = 0;
+    }
+
+    public void setData(Data data) {
+        this.data = data;
     }
 
     public void setViewHolderLayout(@NonNull Listener<Data> listener) {
@@ -140,12 +146,32 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         setLayoutManager(flexboxLayoutManager);
     }
 
-    public void startShimmer(int shimmerSize, Data data) {
+    public void startShimmer(int shimmerSize) {
+        if (data == null) {
+            throw new IllegalArgumentException("Please construct your empty object extended from EzBaseData into the function #setData(data) or you can use #startShimmer(size, data)");
+        }
         if (isFirstLoadEzRecyclerView) {
             this.startShimmerSize = baseAdapter.getItemCount();
             this.endShimmerSize = shimmerSize;
             this.tempShimmerSize = shimmerSize;
-            List<Data> shimmer = new ArrayList<>();
+            final List<Data> shimmer = new ArrayList<>();
+            for (int i = 0; i < shimmerSize; i++) {
+                data.setEzViewType(EzViewType.SHIMMER_EFFECT);
+                shimmer.add(data);
+            }
+            addAll(shimmer);
+            flagEzRecyclerViewFirstLoadDone();
+            flagOnLoading();
+        }
+    }
+
+    public void startShimmer(int shimmerSize, Data data) {
+        if (isFirstLoadEzRecyclerView) {
+            this.data = data;
+            this.startShimmerSize = baseAdapter.getItemCount();
+            this.endShimmerSize = shimmerSize;
+            this.tempShimmerSize = shimmerSize;
+            final List<Data> shimmer = new ArrayList<>();
             for (int i = 0; i < shimmerSize; i++) {
                 data.setEzViewType(EzViewType.SHIMMER_EFFECT);
                 shimmer.add(data);
