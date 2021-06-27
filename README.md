@@ -114,8 +114,8 @@ private fun exampleEzRecycleMultipleLayout() {
     rvSample.setLayout1(R.layout.sample_view_holder_layout_one)
     rvSample.setLayout2(R.layout.sample_view_holder_layout_two)
 
-    // set custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
-    // and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
+    // set custom shimmer effect after that, bind the shimmer view id by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
+    // and set into layout with method "setCustomShimmerLayout()"
     rvSample.setCustomShimmerLayout(
         R.layout.sample_custom_shimmer_effect,
         R.id.sample_shimmer_view_id
@@ -154,14 +154,14 @@ val ezMultipleLayout = EzMultipleLayout()
 ezMultipleLayout.layout1 = R.layout.sample_view_holder_layout_one
 ezMultipleLayout.layout2 = R.layout.sample_view_holder_layout_two
 
-// custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
+// custom shimmer effect after that, bind the shimmer view id by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
 // and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
 ezMultipleLayout.setCustomShimmerLayout(
     R.layout.sample_custom_shimmer_effect,
     R.id.sample_shimmer_view_id
 )
 
-// store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
+// store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback/listener in bindViewHolder
 rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
 ```
 
