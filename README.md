@@ -151,6 +151,25 @@ private fun exampleEzRecycleMultipleLayout() {
 
     }
 }
+
+private fun exampleHandlingDataMultipleLayout() {
+  // example handling data using ezViewType in layout 2
+  // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
+  // handling every layout is manually with your condition for example "isLayoutTwo", after that set for the ezViewType using "EzViewType"
+  if (isLayoutTwo) {
+      val sampleDataTwo = SampleData("- Sub Key $i", "Sub Value $i")
+      sampleDataTwo.ezViewType = EzViewType.LAYOUT_2
+      add(sampleDataTwo)
+      continue
+  }
+
+  // example handling data using ezViewType in layout 1
+  // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
+  // handling every layout is manually with your condition for example "isLayoutOne", after that set for the ezViewType using "EzViewType"
+  val sampleDataOne = SampleData("Key $i", "Value $i")
+  sampleDataOne.ezViewType = EzViewType.LAYOUT_1
+  add(sampleDataOne)
+}
 ```
 And, That's it.
 
