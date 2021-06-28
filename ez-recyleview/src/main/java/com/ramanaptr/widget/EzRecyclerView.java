@@ -150,6 +150,9 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         if (data == null) {
             throw new IllegalArgumentException("Please construct your empty object extended from EzBaseData into the function #setData(data) or you can use #startShimmer(size, data)");
         }
+        if (isRecyclerViewLoading) {
+            return;
+        }
         if (isFirstLoadEzRecyclerView) {
             this.startShimmerSize = baseAdapter.getItemCount();
             this.endShimmerSize = shimmerSize;
@@ -199,6 +202,10 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     }
 
     public void addAll(@NonNull List<Data> dataList) {
+        if (dataList.size() <= 0) {
+            flagCompleteLoading();
+            return;
+        }
         baseAdapter.addAll(dataList);
     }
 
