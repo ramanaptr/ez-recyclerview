@@ -218,6 +218,8 @@ class MainActivity : AppCompatActivity() {
 
                 // Example handling data in single layout
                 val dataList = arrayListOf<SampleData>().apply {
+
+                     // if (currentPage >= 2) return@apply // limit the page for test stop populate the data
                     for (i in 1..size) {
                         add(SampleData("Key $i", "Value $i"))
                     }
@@ -257,7 +259,7 @@ class MainActivity : AppCompatActivity() {
                 // populate the data list
                 val dataList = arrayListOf<SampleData>().apply {
 
-                    // if (currentPage >= 2) return@apply // limit the page for test stop populate the data
+//                     if (currentPage >= 2) return@apply // limit the page for test stop populate the data
                     for (i in 1..size) {
 
                         // example handling data using ezViewType in layout 2
@@ -272,7 +274,7 @@ class MainActivity : AppCompatActivity() {
                         // example handling data using ezViewType in layout 1
                         // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
                         val sampleDataOne =
-                            SampleData("Page ${currentPage + 1} \nKey $i", "\nValue $i")
+                            SampleData("Page ${currentPage + 1} \n\nKey $i", "\n\nValue $i")
                         sampleDataOne.ezViewType = EzViewType.LAYOUT_1
                         add(sampleDataOne)
                     }

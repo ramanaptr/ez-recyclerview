@@ -38,6 +38,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     private EzPaginationListener ezPaginationListener;
     private boolean isFirstLoadEzRecyclerView = true;
     private boolean isRecyclerViewLoading = false;
+    private boolean isShimmerRunning = false;
     private int tempShimmerSize = 0;
     private int startShimmerSize = 0;
     private int endShimmerSize = 0;
@@ -72,7 +73,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
 
     public void destroy() {
         flagEzRecyclerViewFirstLoad();
-        flagOnLoading();
+        flagOnStartLoading();
         removeOnScrollListener(onScrollListener);
         ezPaginationListener = null;
         baseAdapter = null;
@@ -87,7 +88,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     }
 
     /**
-     * we'll delete this method soon or not support
+     * we'll delete this method soon or not support in the future
      * Use instead #setData(Class)
      */
     @Deprecated
@@ -173,14 +174,15 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
                 data.setEzViewType(EzViewType.SHIMMER_EFFECT);
                 shimmer.add(data);
             }
-            addAll(shimmer);
             flagEzRecyclerViewFirstLoadDone();
-            flagOnLoading();
+            flagOnStartLoading();
+            flagShimmerStart();
+            addAll(shimmer);
         }
     }
 
     /**
-     * we'll delete this method soon or not support
+     * we'll delete this method soon or not support in the future
      * Use instead #startShimmer(int) and use #setData(Class) before you start for shimmer effect
      */
     @Deprecated
@@ -197,18 +199,24 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
                 data.setEzViewType(EzViewType.SHIMMER_EFFECT);
                 shimmer.add(data);
             }
-            addAll(shimmer);
             flagEzRecyclerViewFirstLoadDone();
-            flagOnLoading();
+            flagOnStartLoading();
+            addAll(shimmer);
         }
     }
 
     public void hideShimmer() {
         if (endShimmerSize > 0) {
-            baseAdapter.removeRange(startShimmerSize, (endShimmerSize + startShimmerSize), this);
+            baseAdapter.removeRange(startShimmerSize, (endShimmerSize + startShimmerSize));
             endShimmerSize = 0;
             endShimmerSize = tempShimmerSize;
             flagEzRecyclerViewFirstLoad();
+            flagShimmerStop();
+
+            // Remove all views when data list is zero
+            if (baseAdapter.getDataList().size() <= 0) {
+                removeAllViews();
+            }
         }
     }
 
@@ -216,54 +224,57 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     }
 
     public void add(@NonNull Data data) {
-        flagCompleteLoading();
+        flagStopLoading();
         baseAdapter.add(data);
     }
 
     public void addAll(@NonNull List<Data> dataList) {
-        if (dataList.size() <= 0) {
-            flagOnLoading();
-            currentPage = 0;
-            return;
-        }
-        flagCompleteLoading();
-        baseAdapter.addAll(dataList);
+        post(() -> {
+            if (dataList.size() <= 0) {
+                flagOnStartLoading();
+                currentPage = 0;
+                return;
+            }
+            flagStopLoading();
+            baseAdapter.addAll(dataList);
+        });
     }
 
     public void replace(@NonNull Data data) {
-        flagCompleteLoading();
+        flagStopLoading();
         baseAdapter.replace(data);
     }
 
     public void replaceAll(@NonNull List<Data> dataList) {
         if (dataList.size() <= 0) {
-            flagOnLoading();
+            flagOnStartLoading();
             currentPage = 0;
             return;
         }
-        flagCompleteLoading();
+        flagStopLoading();
         removeAllViews();
         baseAdapter.replaceAll(dataList);
     }
 
     public void remove(@NonNull int position) {
-        flagCompleteLoading();
+        flagStopLoading();
         removeViewAt(position);
         baseAdapter.remove(position);
     }
 
     public void remove(@NonNull Data data) {
-        flagCompleteLoading();
+        flagStopLoading();
         baseAdapter.remove(data);
     }
 
     public void removeAll() {
-        flagCompleteLoading();
+        flagStopLoading();
+        removeAllViews();
         baseAdapter.removeAll();
     }
 
     public void refresh() {
-        flagCompleteLoading();
+        flagStopLoading();
         baseAdapter.refresh();
     }
 
@@ -271,7 +282,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         offset = 0;
         limit = 0;
         endShimmerSize = tempShimmerSize;
-        flagOnLoading();
+        flagOnStartLoading();
         flagEzRecyclerViewFirstLoad();
         removeAll();
         removeAllViews();
@@ -316,7 +327,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
                     pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
                 }
 
-                if (!isRecyclerViewLoading) {
+                if (!isRecyclerViewLoading && !isShimmerRunning) {
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                         offset += limit;
                         currentPage++;
@@ -342,7 +353,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
                     pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
                 }
 
-                if (!isRecyclerViewLoading) {
+                if (!isRecyclerViewLoading && !isShimmerRunning) {
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                         offset += limit;
                         currentPage++;
@@ -362,11 +373,19 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         isFirstLoadEzRecyclerView = false;
     }
 
-    public void flagCompleteLoading() {
+    public void flagStopLoading() {
         isRecyclerViewLoading = false;
     }
 
-    public void flagOnLoading() {
+    public void flagOnStartLoading() {
+        isShimmerRunning = true;
+    }
+
+    public void flagShimmerStop() {
+        isShimmerRunning = false;
+    }
+
+    public void flagShimmerStart() {
         isRecyclerViewLoading = true;
     }
 
@@ -499,14 +518,8 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
             notifyDataSetChanged();
         }
 
-        public void removeRange(int min, int max, EzRecyclerView<Data> ezRecyclerView) {
-            this.dataList.removeRange(min, max);
-            notifyDataSetChanged();
-
-            // Remove all views when data list is zero
-            if (dataList.size() <= 0) {
-                ezRecyclerView.removeAllViews();
-            }
+        public ListData<Data> getDataList() {
+            return dataList;
         }
 
         public void refresh() {
