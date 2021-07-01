@@ -35,6 +35,10 @@ public class EzMultipleLayout {
         return shimmerViewId;
     }
 
+    public void setCustomShimmerLayout(@LayoutRes int layoutShimmer) {
+        this.customShimmerLayout = layoutShimmer;
+    }
+
     public void setCustomShimmerLayout(@LayoutRes int layoutShimmer, @IdRes int shimmerViewId) {
         this.customShimmerLayout = layoutShimmer;
         this.shimmerViewId = shimmerViewId;

@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class EzBaseData implements Serializable {
 
     private EzViewType ezViewType = EzViewType.LAYOUT_1;
+    private int position = 0;
 
     public EzViewType getEzViewType() {
         return ezViewType;
@@ -14,6 +15,14 @@ public class EzBaseData implements Serializable {
 
     public void setEzViewType(EzViewType ezViewType) {
         this.ezViewType = ezViewType;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public boolean isLoadingLayout() {

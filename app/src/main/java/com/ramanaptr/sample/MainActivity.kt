@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var subscribe: Disposable? = null
+    private var currentPage = 1
 
     /**
      * You must extend the object EzBaseData.
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     private fun initListener() {
         binding.srl.setOnRefreshListener {
             binding.srl.isRefreshing = false
+            rvSample.removeAll()
             when {
                 isSingleLayout -> {
                     exampleDataForSingleLayout(15)
@@ -88,6 +90,7 @@ class MainActivity : AppCompatActivity() {
      * */
     private fun initPaginationEzRecyclerView() {
         rvSample.setEzPaginationListener(5, 0) { limit: Int, newOffset: Int, currentPage: Int ->
+            this.currentPage = currentPage
             when {
                 isSingleLayout -> {
                     exampleDataForSingleLayout(newOffset)
@@ -107,8 +110,8 @@ class MainActivity : AppCompatActivity() {
         // if you want use view binding you should to cast the object like the example below
         rvSample = binding.rvSample as EzRecyclerView<SampleData>
 
-        // set empty object like example "SampleData" when you use for shimmer effect, to avoid exception
-        rvSample.setData(SampleData())
+        // set class data
+        rvSample.setData(SampleData::class.java)
 
         // set example function for pagination on Ez-RecyclerView
         // init the pagination after bind the view and declare it into field
@@ -124,6 +127,15 @@ class MainActivity : AppCompatActivity() {
             view.findViewById<TextView>(R.id.tv_value_one)
                 .apply { data.value?.apply { text = this } }
 
+            // OnClick Handling
+            view.setOnClickListener {
+                Toast.makeText(
+                    this,
+                    "You clicked ${data.key} position ${data.position}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
         }
 
         // this is just dummy data
@@ -136,8 +148,8 @@ class MainActivity : AppCompatActivity() {
         // if you want use view binding you should to cast the object like the example below
         rvSample = binding.rvSample as EzRecyclerView<SampleData>
 
-        // set empty object like example "SampleData" when you use for shimmer effect, to avoid exception
-        rvSample.setData(SampleData())
+        // set class data
+        rvSample.setData(SampleData::class.java)
 
         // example function for pagination on Ez-RecyclerView
         // init the pagination after bind the view and declare it into field
@@ -146,13 +158,7 @@ class MainActivity : AppCompatActivity() {
         // set the your layout
         rvSample.setLayout1(R.layout.sample_view_holder_layout_one)
         rvSample.setLayout2(R.layout.sample_view_holder_layout_two)
-
-        // set custom shimmer effect after that, bind the shimmer view layout by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
-        // and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
-        rvSample.setCustomShimmerLayout(
-            R.layout.sample_custom_shimmer_effect,
-            R.id.sample_shimmer_view_id
-        )
+        rvSample.setCustomShimmerLayout(R.layout.sample_custom_shimmer_effect)
 
         // store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
         rvSample.setViewHolderLayout { view: View, data: SampleData ->
@@ -166,19 +172,37 @@ class MainActivity : AppCompatActivity() {
                         .apply { data.key?.apply { text = this } }
                     view.findViewById<TextView>(R.id.tv_value_one)
                         .apply { data.value?.apply { text = this } }
+
+                    // OnClick Handling
+                    view.setOnClickListener {
+                        Toast.makeText(
+                            this,
+                            "You clicked ${data.key} position ${data.position}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
                 data.isLayout2 -> {
                     view.findViewById<TextView>(R.id.tv_key_two)
                         .apply { data.key?.apply { text = this } }
                     view.findViewById<TextView>(R.id.tv_value_two)
                         .apply { data.value?.apply { text = this } }
+
+                    // OnClick Handling
+                    view.setOnClickListener {
+                        Toast.makeText(
+                            this,
+                            "You clicked ${data.key} position ${data.position}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
 
         }
 
         // this is just dummy data
-        exampleDataForMultipleLayout(5)
+        exampleDataForMultipleLayout(20)
     }
 
     private fun exampleDataForSingleLayout(size: Int) {
@@ -231,6 +255,8 @@ class MainActivity : AppCompatActivity() {
 
                 // populate the data list
                 val dataList = arrayListOf<SampleData>().apply {
+
+                    // if (currentPage >= 2) return@apply // limit the page for test stop populate the data
                     for (i in 1..size) {
 
                         // example handling data using ezViewType in layout 2
@@ -244,7 +270,7 @@ class MainActivity : AppCompatActivity() {
 
                         // example handling data using ezViewType in layout 1
                         // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
-                        val sampleDataOne = SampleData("Key $i", "Value $i")
+                        val sampleDataOne = SampleData("Page $currentPage \nKey $i", "\nValue $i")
                         sampleDataOne.ezViewType = EzViewType.LAYOUT_1
                         add(sampleDataOne)
                     }
