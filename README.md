@@ -66,8 +66,8 @@ private fun exampleEzRecycleSingleLayout() {
     // if you want use view binding you should to cast the object like the example below
     rvSample = binding.rvSample as EzRecyclerView<SampleData>
     
-    // set empty object like example "SampleData" when you use for shimmer effect, to avoid exception
-    rvSample.setData(SampleData())
+    // set class data
+    rvSample.setData(SampleData::class.java)
 
     // example function for pagination on Ez-RecyclerView
     // init the pagination after bind the view and declare it into field
@@ -110,8 +110,8 @@ private fun exampleEzRecycleMultipleLayout() {
     // if you want use view binding you should to cast the object like the example below
     rvSample = binding.rvSample as EzRecyclerView<SampleData>
     
-    // set empty object like example "SampleData" when you use for shimmer effect, to avoid exception
-    rvSample.setData(SampleData())
+    // set class data
+    rvSample.setData(SampleData::class.java)
 
     // example function for pagination on Ez-RecyclerView
     // init the pagination after bind the view and declare it into field
@@ -120,13 +120,9 @@ private fun exampleEzRecycleMultipleLayout() {
     // set your view holder layout
     rvSample.setLayout1(R.layout.sample_view_holder_layout_one)
     rvSample.setLayout2(R.layout.sample_view_holder_layout_two)
-
-    // set custom shimmer effect after that, bind the shimmer view id by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
-    // and set into layout with method "setCustomShimmerLayout()"
-    rvSample.setCustomShimmerLayout(
-        R.layout.sample_custom_shimmer_effect,
-        R.id.sample_shimmer_view_id
-    )
+    
+    // set you custom shimmer layout
+    rvSample.setCustomShimmerLayout(R.layout.sample_custom_shimmer_effect)
 
     // you can use "setViewHolderLayout" directly without "EzMultipleLayout" object
     rvSample.setViewHolderLayout { view: View, data: SampleData ->
@@ -188,12 +184,8 @@ val ezMultipleLayout = EzMultipleLayout()
 ezMultipleLayout.layout1 = R.layout.sample_view_holder_layout_one
 ezMultipleLayout.layout2 = R.layout.sample_view_holder_layout_two
 
-// custom shimmer effect after that, bind the shimmer view id by R.id.<shimmer_view_id> from R.layout.<your_shimmer_layout>
-// and set into "ezMultipleLayout" with method "setCustomShimmerLayout()"
-ezMultipleLayout.setCustomShimmerLayout(
-    R.layout.sample_custom_shimmer_effect,
-    R.id.sample_shimmer_view_id
-)
+// set your custom shimmer layout
+ezMultipleLayout.setCustomShimmerLayout(R.layout.sample_custom_shimmer_effect)
 
 // store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback/listener in bindViewHolder
 rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
@@ -281,10 +273,8 @@ rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData ->
 Another Example Implementation Custom Shimmer to binding the view id
 ```kotlin
 
-rvSample.setCustomShimmerLayout(
-  R.layout.sample_custom_shimmer_effect,
-  R.id.sample_shimmer_view_id
-)
+// your shimmer effect layout
+rvSample.setCustomShimmerLayout(R.layout.sample_custom_shimmer_effect)
   
 // you can use "setViewHolderLayout" directly without "EzMultipleLayout" object
 rvSample.setViewHolderLayout { view: View, data: SampleData -> {} }
@@ -294,7 +284,7 @@ Start Shimmer on loading the data
 ```kotlin
 // 10 is the size view on shimmer effect, and "SampleData" for empty object from EzRecyclerView<SampleData>
 // please do take a note for "Sample Data" is extend/inheritance from "Ez BaseData"
-rvSample.startShimmer(size, SampleData()) // Alternative
+rvSample.startShimmer(size, SampleData()) // Deprecated
 rvSample.startShimmer(size) // Recommended 
 ```
 >Note: before you start the shimmer, set empty object like example "SampleData" when you use for shimmer effect, to avoid exception rvSample.setData(SampleData())
@@ -311,7 +301,7 @@ rvSample.startShimmer()
 ```
 
 `Important!` Always call function destroy to avoid memory leak or error state
-```    
+```kotlin
 override fun onDestroy() {
   super.onDestroy()
   rvSample.destroy()
