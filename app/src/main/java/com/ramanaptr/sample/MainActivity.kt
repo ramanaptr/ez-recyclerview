@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var subscribe: Disposable? = null
-    private var currentPage = 1
+    private var currentPage = 0
 
     /**
      * You must extend the object EzBaseData.
@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     private fun initListener() {
         binding.srl.setOnRefreshListener {
             binding.srl.isRefreshing = false
+            currentPage = 0
             rvSample.removeAll()
             when {
                 isSingleLayout -> {
@@ -270,7 +271,8 @@ class MainActivity : AppCompatActivity() {
 
                         // example handling data using ezViewType in layout 1
                         // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
-                        val sampleDataOne = SampleData("Page $currentPage \nKey $i", "\nValue $i")
+                        val sampleDataOne =
+                            SampleData("Page ${currentPage + 1} \nKey $i", "\nValue $i")
                         sampleDataOne.ezViewType = EzViewType.LAYOUT_1
                         add(sampleDataOne)
                     }
