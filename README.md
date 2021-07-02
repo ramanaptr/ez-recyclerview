@@ -8,7 +8,6 @@
   <a href="https://jitpack.io/#ramanaptr/ez-recyclerview">
     <img src="https://jitpack.io/v/ramanaptr/ez-recyclerview.svg" alt="jitpack - ez recyclerview" />
   </a>
-  <img src="https://img.shields.io/github/downloads/ramanaptr/ez-recyclerview/total" alt="download - ez recyclerview" />
   <img src="https://visitor-badge.laobi.icu/badge?page_id=ramanaptr.ez-recyclerview" alt="visitor - ez recyclerview" />
   <br>
   <br>
