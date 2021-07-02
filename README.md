@@ -219,6 +219,7 @@ rvSample.removeAll() // Remove all views and data
 rvSample.remove(data) // Remove view and data
 rvSample.refresh() // Refresh when data not change yet
 rvSample.destroy() // Destroy the object on field and reset the value
+rvSample.reset() // Reset all state on recyclerview such view, first initial pagination value, and data list
 ```
 
 ## Implement the LayoutManager programmatically
@@ -305,6 +306,16 @@ rvSample.startShimmer()
 override fun onDestroy() {
   super.onDestroy()
   rvSample.destroy()
+}
+```
+
+`Importan!` Recommend for use this function when you re-start or resume again the data
+```kotlin
+// Example on refresh the data again
+swipeRefreshLayout.setOnRefreshListener {
+    binding.srl.isRefreshing = false
+    rvSample.reset()
+    // TODO: your logic data
 }
 ```
 
