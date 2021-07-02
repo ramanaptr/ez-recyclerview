@@ -102,7 +102,7 @@ private fun exampleDataForSingleLayout(size: Int) {
 That's it.
 
 Alternative for bind the view id
-```
+```kotlin
 // example with local variable when using view binding
 val rvSample = EzRecyclerView.bind<EzRecyclerView<SampleData>>(binding.rvSample)
 
