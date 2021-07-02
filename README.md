@@ -64,7 +64,7 @@ private fun exampleEzRecycleSingleLayout() {
 
     // if you want use findViewById() you shouldn't cast the EzRecycleView
     // if you want use view binding you should to cast the object like the example below
-    // If you want't casting the object, you can use #EzRecyclerView.bind()
+    // If you won't casting the object, you can use #EzRecyclerView.bind()
     rvSample = EzRecyclerView.bind(binding.rvSample)
     
     // set class data
