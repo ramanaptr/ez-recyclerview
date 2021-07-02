@@ -101,6 +101,19 @@ private fun exampleDataForSingleLayout(size: Int) {
 ```
 That's it.
 
+Alternative for bind the view id
+```
+// example with local variable when using view binding
+val rvSample = EzRecyclerView.bind<EzRecyclerView<SampleData>>(binding.rvSample)
+
+// example with local variable when using view binding but there is a raw cast warning
+val rvSample = binding.rvSample as EzRecyclerView<SampleData>
+
+// example with local variable when using findViewById()
+val rvSample = findViewById<EzRecyclerView<SampleData>>(R.id.rv_sample)
+```
+and choose according to your convenience
+
 
 Example Kotlin Code for Multiple View
 ```kotlin
