@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * turn "isSingleLayout" into "false" when you want to try multi layout stuff
      * */
-    private var isSingleLayout = true
+    private var isSingleLayout = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,9 +107,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun exampleEzRecycleSingleLayout() {
 
-        // if you want use findViewById() you'll shouldn't cast the EzRecycleView
+        // if you want use findViewById() you shouldn't cast the EzRecycleView
         // if you want use view binding you should to cast the object like the example below
-        rvSample = binding.rvSample as EzRecyclerView<SampleData>
+        // If you won't casting the object, you can use #EzRecyclerView.bind()
+        rvSample = EzRecyclerView.bind(binding.rvSample)
 
         // set class data
         rvSample.setData(SampleData::class.java)
@@ -145,9 +146,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun exampleEzRecycleMultipleLayout() {
 
-        // if you want use findViewById() you'll shouldn't cast the EzRecycleView
+        // if you want use findViewById() you shouldn't cast the EzRecycleView
         // if you want use view binding you should to cast the object like the example below
-        rvSample = binding.rvSample as EzRecyclerView<SampleData>
+        // If you won't casting the object, you can use #EzRecyclerView.bind()
+        rvSample = EzRecyclerView.bind(binding.rvSample)
 
         // set class data
         rvSample.setData(SampleData::class.java)

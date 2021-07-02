@@ -64,6 +64,11 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         initComponent();
     }
 
+    @SuppressWarnings(value = "unchecked")
+    public static <EzRv extends EzRecyclerView<?>> EzRv bind(EzRecyclerView<?> view) {
+        return (EzRv) view;
+    }
+
     private void initComponent() {
         if (baseAdapter == null) {
             baseAdapter = new BaseAdapter<>(ezMultipleLayout);
@@ -282,7 +287,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     /**
      * Use #reset() every re-start
      * Not recommend for first init
-     * */
+     */
     public void reset() {
         this.limit = limitTemp;
         this.offset = offsetTemp;
