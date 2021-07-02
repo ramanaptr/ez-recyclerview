@@ -88,7 +88,7 @@ private fun exampleEzRecycleSingleLayout() {
 private fun exampleDataForSingleLayout(size: Int) {
     // start shimmer when load the data
     // please to use your empty object like SampleData()
-    // rvSample.startShimmer(size, SampleData()) // Alternative
+    // rvSample.startShimmer(size, SampleData()) // @Deprecated
     rvSample.startShimmer(size)
 
     // start load the data
@@ -309,9 +309,12 @@ override fun onDestroy() {
 }
 ```
 
-`Importan!` Recommend for use this function when you re-start or resume again the data
+`Important!` Recommend for use this function when you re-start or resume again the data
 ```kotlin
-// Example on refresh the data again
+// please to use
+rvSample.reset()
+
+// example on refresh the data again
 swipeRefreshLayout.setOnRefreshListener {
     binding.srl.isRefreshing = false
     rvSample.reset()
