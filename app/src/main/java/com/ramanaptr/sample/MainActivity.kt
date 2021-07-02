@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * turn "isSingleLayout" into "false" when you want to try multi layout stuff
      * */
-    private var isSingleLayout = false
+    private var isSingleLayout = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
         binding.srl.setOnRefreshListener {
             binding.srl.isRefreshing = false
             currentPage = 0
-            rvSample.removeAll()
+            rvSample.reset()
             when {
                 isSingleLayout -> {
                     exampleDataForSingleLayout(15)
@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // this is just dummy data
-        exampleDataForSingleLayout(5)
+        exampleDataForSingleLayout(20)
     }
 
     private fun exampleEzRecycleMultipleLayout() {
@@ -219,7 +219,7 @@ class MainActivity : AppCompatActivity() {
                 // Example handling data in single layout
                 val dataList = arrayListOf<SampleData>().apply {
 
-                     // if (currentPage >= 2) return@apply // limit the page for test stop populate the data
+//                    if (currentPage >= 2) return@apply // limit the page for test stop populate the data
                     for (i in 1..size) {
                         add(SampleData("Key $i", "Value $i"))
                     }
@@ -259,7 +259,7 @@ class MainActivity : AppCompatActivity() {
                 // populate the data list
                 val dataList = arrayListOf<SampleData>().apply {
 
-//                     if (currentPage >= 2) return@apply // limit the page for test stop populate the data
+//                    if (currentPage >= 2) return@apply // limit the page for test stop populate the data
                     for (i in 1..size) {
 
                         // example handling data using ezViewType in layout 2

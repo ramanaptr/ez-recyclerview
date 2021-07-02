@@ -43,7 +43,9 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     private int startShimmerSize = 0;
     private int endShimmerSize = 0;
     private int offset = 0;
+    private int offsetTemp = 0;
     private int limit = 0;
+    private int limitTemp = 0;
     private int currentPage = 0;
     private Data data;
 
@@ -206,18 +208,20 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     }
 
     public void hideShimmer() {
-        if (endShimmerSize > 0) {
-            baseAdapter.removeRange(startShimmerSize, (endShimmerSize + startShimmerSize));
-            endShimmerSize = 0;
-            endShimmerSize = tempShimmerSize;
-            flagEzRecyclerViewFirstLoad();
-            flagShimmerStop();
+        post(() -> {
+            if (endShimmerSize > 0) {
+                baseAdapter.removeRange(startShimmerSize, (endShimmerSize + startShimmerSize));
+                endShimmerSize = 0;
+                endShimmerSize = tempShimmerSize;
+                flagEzRecyclerViewFirstLoad();
+                flagShimmerStop();
 
-            // Remove all views when data list is zero
-            if (baseAdapter.getDataList().size() <= 0) {
-                removeAllViews();
+                // Remove all views when data list is zero
+                if (baseAdapter.getDataList().size() <= 0) {
+                    removeAllViews();
+                }
             }
-        }
+        });
     }
 
     private void settingAnimator() {
@@ -225,19 +229,17 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
 
     public void add(@NonNull Data data) {
         flagStopLoading();
-        baseAdapter.add(data);
+        post(() -> baseAdapter.add(data));
     }
 
     public void addAll(@NonNull List<Data> dataList) {
-        post(() -> {
-            if (dataList.size() <= 0) {
-                flagOnStartLoading();
-                currentPage = 0;
-                return;
-            }
-            flagStopLoading();
-            baseAdapter.addAll(dataList);
-        });
+        if (dataList.size() <= 0) {
+            flagOnStartLoading();
+            currentPage = 0;
+            return;
+        }
+        flagStopLoading();
+        post(() -> baseAdapter.addAll(dataList));
     }
 
     public void replace(@NonNull Data data) {
@@ -249,7 +251,6 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         if (dataList.size() <= 0) {
             flagOnStartLoading();
             currentPage = 0;
-            return;
         }
         flagStopLoading();
         removeAllViews();
@@ -278,14 +279,15 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         baseAdapter.refresh();
     }
 
-    public void resetAllViewsAndShimmer() {
-        offset = 0;
-        limit = 0;
-        endShimmerSize = tempShimmerSize;
-        flagOnStartLoading();
+    /**
+     * Use #reset() every re-start
+     * Not recommend for first init
+     * */
+    public void reset() {
+        this.limit = limitTemp;
+        this.offset = offsetTemp;
         flagEzRecyclerViewFirstLoad();
         removeAll();
-        removeAllViews();
     }
 
     public void setEzPaginationListener(EzPaginationListener ezPaginationListener) {
@@ -294,6 +296,8 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         this.offset = 0;
         this.limit = 0;
         this.currentPage = 0;
+        this.offsetTemp = 0;
+        this.limitTemp = 0;
     }
 
     public void setEzPaginationListener(int initialLimit, int initialOffset, EzPaginationListener ezPaginationListener) {
@@ -301,6 +305,8 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
         this.ezPaginationListener = ezPaginationListener;
         this.offset = initialOffset;
         this.limit = initialLimit;
+        this.offsetTemp = initialOffset;
+        this.limitTemp = initialLimit;
     }
 
     private final OnScrollListener onScrollListener = new OnScrollListener() {
@@ -471,7 +477,6 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
             this.ezMultipleLayout = ezMultipleLayout;
         }
 
-
         public void add(@NonNull Data data) {
             this.dataList.add(data);
             notifyDataSetChanged();
@@ -593,6 +598,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
             holder.setIsRecyclable(false);
             final Data data = dataList.get(position);
             data.setPosition(position); // to know position of view
+            if (data.isCustomShimmerLayout()) return;
             listener.setDataOnViewHolder(holder.itemView, data);
             // startShimmerItem(holder, data);
         }
