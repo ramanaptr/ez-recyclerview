@@ -2,7 +2,7 @@
 
 ## Preview and Introduction
 <p align="center">
-  <img  src="https://github.com/ramanaptr/ez-recyclerview/blob/main/app/src/main/res/raw/example_ez_recyclerview.gif?raw=true" width="210" height="360"/> 
+  <img  src="https://github.com/ramanaptr/ez-recyclerview/blob/main/app/src/main/res/raw/ez_recyclerview_preview.gif?raw=true" width="210" height="360"/> 
 </p>
 <p align="center">
   <a href="https://jitpack.io/#ramanaptr/ez-recyclerview">
