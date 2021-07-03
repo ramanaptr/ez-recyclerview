@@ -104,7 +104,7 @@ That's it.
 Alternative for bind the view id
 ```kotlin
 // example with local variable when using view binding
-val rvSample = EzRecyclerView.bind<EzRecyclerView<SampleData>>(binding.rvSample)
+val rvSample = EzRecyclerView.bind<SampleData>(binding.rvSample)
 
 // example with local variable when using view binding but there is a raw cast warning
 val rvSample = binding.rvSample as EzRecyclerView<SampleData>
