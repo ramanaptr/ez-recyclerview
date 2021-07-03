@@ -65,8 +65,8 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     }
 
     @SuppressWarnings(value = "unchecked")
-    public static <EzRv extends EzRecyclerView<?>> EzRv bind(EzRecyclerView<?> view) {
-        return (EzRv) view;
+    public static <BaseData extends EzBaseData> EzRecyclerView<BaseData> bind(EzRecyclerView<?> view) {
+        return (EzRecyclerView<BaseData>) view;
     }
 
     private void initComponent() {
@@ -291,6 +291,7 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
     public void reset() {
         this.limit = limitTemp;
         this.offset = offsetTemp;
+        this.currentPage = 0;
         flagEzRecyclerViewFirstLoad();
         removeAll();
     }
@@ -541,23 +542,23 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
             Data data = dataList.get(position);
 
             // Check ViewType If Available
-            if (data.getEzViewType() == EzViewType.LAYOUT_1) {
+            if (data.isLayout1()) {
                 return EzViewType.LAYOUT_1.getViewType();
-            } else if (data.getEzViewType() == EzViewType.LAYOUT_2) {
+            } else if (data.isLayout2()) {
                 return EzViewType.LAYOUT_2.getViewType();
-            } else if (data.getEzViewType() == EzViewType.LAYOUT_3) {
+            } else if (data.isLayout3()) {
                 return EzViewType.LAYOUT_3.getViewType();
-            } else if (data.getEzViewType() == EzViewType.LAYOUT_4) {
+            } else if (data.isLayout4()) {
                 return EzViewType.LAYOUT_4.getViewType();
-            } else if (data.getEzViewType() == EzViewType.LAYOUT_5) {
+            } else if (data.isLayout5()) {
                 return EzViewType.LAYOUT_5.getViewType();
-            } else if (data.getEzViewType() == EzViewType.LAYOUT_6) {
+            } else if (data.isLayout6()) {
                 return EzViewType.LAYOUT_6.getViewType();
-            } else if (data.getEzViewType() == EzViewType.LAYOUT_7) {
+            } else if (data.isLayout7()) {
                 return EzViewType.LAYOUT_7.getViewType();
-            } else if (data.getEzViewType() == EzViewType.AD_UNIT) {
+            } else if (data.isAdUnitLayout()) {
                 return EzViewType.AD_UNIT.getViewType();
-            } else if (data.getEzViewType() == EzViewType.LOADING) {
+            } else if (data.isLoadingLayout()) {
                 return EzViewType.LOADING.getViewType();
             }
 
@@ -605,7 +606,6 @@ public class EzRecyclerView<Data extends EzBaseData> extends RecyclerView {
             data.setPosition(position); // to know position of view
             if (data.isCustomShimmerLayout()) return;
             listener.setDataOnViewHolder(holder.itemView, data);
-            // startShimmerItem(holder, data);
         }
 
         private boolean startShimmerItem(BaseViewHolder holder, Data data) {

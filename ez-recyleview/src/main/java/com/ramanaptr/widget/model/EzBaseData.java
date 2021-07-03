@@ -13,16 +13,18 @@ public class EzBaseData implements Serializable {
         return ezViewType;
     }
 
-    public void setEzViewType(EzViewType ezViewType) {
+    public EzBaseData setEzViewType(EzViewType ezViewType) {
         this.ezViewType = ezViewType;
+        return this;
     }
 
     public int getPosition() {
         return position;
     }
 
-    public void setPosition(int position) {
+    public EzBaseData setPosition(int position) {
         this.position = position;
+        return this;
     }
 
     public boolean isLoadingLayout() {

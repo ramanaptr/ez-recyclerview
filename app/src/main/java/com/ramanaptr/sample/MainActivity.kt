@@ -100,7 +100,11 @@ class MainActivity : AppCompatActivity() {
                     exampleDataForMultipleLayout(newOffset)
                 }
             }
-            Toast.makeText(this, "Page $currentPage and offset $newOffset", Toast.LENGTH_SHORT)
+            Toast.makeText(
+                this,
+                "Page ${currentPage + 1} and offset $newOffset",
+                Toast.LENGTH_SHORT
+            )
                 .show()
         }
     }
@@ -161,6 +165,7 @@ class MainActivity : AppCompatActivity() {
         // set the your layout
         rvSample.setLayout1(R.layout.sample_view_holder_layout_one)
         rvSample.setLayout2(R.layout.sample_view_holder_layout_two)
+        rvSample.setLayout3(R.layout.sample_view_holder_layout_three)
         rvSample.setCustomShimmerLayout(R.layout.sample_custom_shimmer_effect)
 
         // store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
@@ -190,6 +195,19 @@ class MainActivity : AppCompatActivity() {
                         .apply { data.key?.apply { text = this } }
                     view.findViewById<TextView>(R.id.tv_value_two)
                         .apply { data.value?.apply { text = this } }
+
+                    // OnClick Handling
+                    view.setOnClickListener {
+                        Toast.makeText(
+                            this,
+                            "You clicked ${data.key} position ${data.position}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                data.isLayout3 -> {
+                    view.findViewById<TextView>(R.id.tv_value_three)
+                        .apply { data.key?.apply { text = this } }
 
                     // OnClick Handling
                     view.setOnClickListener {
@@ -260,8 +278,13 @@ class MainActivity : AppCompatActivity() {
 
                 // populate the data list
                 val dataList = arrayListOf<SampleData>().apply {
-
 //                    if (currentPage >= 2) return@apply // limit the page for test stop populate the data
+
+                    // title for current page
+                    val sampleData = SampleData("Current Page: ${currentPage + 1}")
+                    sampleData.ezViewType = EzViewType.LAYOUT_3
+                    add(sampleData)
+
                     for (i in 1..size) {
 
                         // example handling data using ezViewType in layout 2
@@ -275,8 +298,7 @@ class MainActivity : AppCompatActivity() {
 
                         // example handling data using ezViewType in layout 1
                         // you must implement ezViewType because Ez-Recycler must to know attach the data into view you assign
-                        val sampleDataOne =
-                            SampleData("Page ${currentPage + 1} \n\nKey $i", "\n\nValue $i")
+                        val sampleDataOne = SampleData("Key $i", "Value $i")
                         sampleDataOne.ezViewType = EzViewType.LAYOUT_1
                         add(sampleDataOne)
                     }
