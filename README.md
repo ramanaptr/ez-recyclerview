@@ -28,10 +28,6 @@ allprojects {
 
 
 Add implementation Dependency into your module's `build.gradle`
-`Version:`
-<a href="https://jitpack.io/#ramanaptr/ez-recyclerview">
-  <img src="https://jitpack.io/v/ramanaptr/ez-recyclerview.svg" alt="jitpack - ez recyclerview" />
-</a>
 ```gradle
 dependencies {
   implementation 'com.ramanaputra:ez-recyclerview:<latest-version>'
@@ -47,7 +43,7 @@ XML:
   app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 ```
 
-Example For the Data
+Example For the Data with EzBaseData
 ```kotlin
 data class SampleData(
     var key: String? = null,
@@ -209,7 +205,7 @@ ezMultipleLayout.setCustomShimmerLayout(R.layout.sample_custom_shimmer_effect)
 rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
 ```
 
-## Example for implementation pagination
+## Pagination Example
 ```kotlin
 /**
  * if you like using pagination, this method match for you.
@@ -227,7 +223,7 @@ private fun initPaginationEzRecyclerView() {
 }
 ```
 
-## Adding/Replace/Remove data also refresh the data
+## Adding/Replace/Remove/Refresh/Destroy/Reset
 ```kotlin
 rvSample.addAll(dataList) // Add all data without remove/replace another views position
 rvSample.add(data) // Add data without remove/replace another view position
@@ -240,7 +236,7 @@ rvSample.destroy() // Destroy the object on field and reset the value
 rvSample.reset() // Reset all state on recyclerview such view, first initial pagination value, and data list
 ```
 
-## Implement the LayoutManager programmatically
+## LayoutManager Programmatically
 ```kotlin
 rvSample.setDefaultLayoutManager() // Default layout manager
 rvSample.setGridLayoutManager(3) // Default grid layout with param span
@@ -279,24 +275,20 @@ rvSample.setHorizontalLinearLayoutManager() // Default horizontal linear layout 
 
 Example Implementation Custom Shimmer to binding the view id
 ```kotlin
-// you can use "setViewHolderLayout" with "EzMultipleLayout" object
-ezMultipleLayout.setCustomShimmerLayout(
-    R.layout.sample_custom_shimmer_effect,
-    R.id.sample_shimmer_view_id
-)
-
-// store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
-rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
-```
-
-Another Example Implementation Custom Shimmer to binding the view id
-```kotlin
-
 // your shimmer effect layout
 rvSample.setCustomShimmerLayout(R.layout.sample_custom_shimmer_effect)
   
 // you can use "setViewHolderLayout" directly without "EzMultipleLayout" object
 rvSample.setViewHolderLayout { view: View, data: SampleData -> {} }
+```
+
+Another Example Implementation Custom Shimmer to binding the view id
+```kotlin
+// you can use "setViewHolderLayout" with "EzMultipleLayout" object
+ezMultipleLayout.setCustomShimmerLayout(R.layout.sample_custom_shimmer_effect)
+
+// store "ezMultipleLayout" into param of "setViewHolderLayout()" and implement callback bindViewHolder
+rvSample.setViewHolderLayout(ezMultipleLayout) { view: View, data: SampleData -> {} }
 ```
 
 Start Shimmer on loading the data
