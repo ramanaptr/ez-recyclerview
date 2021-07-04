@@ -11,7 +11,7 @@
   <img src="https://visitor-badge.laobi.icu/badge?page_id=ramanaptr.ez-recyclerview" alt="visitor - ez recyclerview" />
   <br>
   <br>
-  <p>Ez-RecyclerView is library that help android developer to make it easier when to create a basic recycler view. To create the recycler view sure to always repeat it, especially the ViewHolder and it's Adapter, so I decided to improvement for make it simple, "Ez RecyclerView" library the main advantage, you can display a list of data without creating ViewHolders and Adapters repeatedly. If you interested, let's go contribute with me 👍 </p>
+  <p>Ez-RecyclerView is a library that helps the android developer to make it easier when to create a basic recycler view. To create the recycler view I'm sure another developer to always repeat it, especially the ViewHolder and its Adapter, so I decided to improve to make it simple, "Ez RecyclerView" library the main advantage, you can display a list of data without creating ViewHolders and Adapters repeatedly. If you are interested, let's go contribute with me 👍 </p>
 </p>
 
 
