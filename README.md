@@ -28,9 +28,13 @@ allprojects {
 
 
 Add implementation Dependency into your module's `build.gradle`
+`Version:`
+<a href="https://jitpack.io/#ramanaptr/ez-recyclerview">
+  <img src="https://jitpack.io/v/ramanaptr/ez-recyclerview.svg" alt="jitpack - ez recyclerview" />
+</a>
 ```gradle
 dependencies {
-  implementation 'com.github.ramanaptr:ez-recyclerview:<latest-version>'
+  implementation 'com.ramanaputra:ez-recyclerview:<latest-version>'
 }
 ```
 
