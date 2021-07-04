@@ -298,7 +298,6 @@ Start Shimmer on loading the data
 rvSample.startShimmer(size, SampleData()) // Deprecated
 rvSample.startShimmer(size) // Recommended 
 ```
->Note: before you start the shimmer, set empty object like example "SampleData" when you use for shimmer effect, to avoid exception rvSample.setData(SampleData())
 
 Hide Shimmer on complete showing the data
 ```kotlin
