@@ -5,8 +5,8 @@
   <img  src="https://github.com/ramanaptr/ez-recyclerview/blob/main/app/src/main/res/raw/ez_recyclerview_preview.gif?raw=true" width="210" height="360"/> 
 </p>
 <p align="center">
-  <a href="https://jitpack.io/#ramanaptr/ez-recyclerview">
-    <img src="https://jitpack.io/v/ramanaptr/ez-recyclerview.svg" alt="jitpack - ez recyclerview" />
+  <a href="https://jitpack.io/#com.ramanaputra/ez-recyclerview">
+    <img src="https://jitpack.io/v/com.ramanaputra/ez-recyclerview.svg" alt="jitpack - ez recyclerview" />
   </a>
   <img src="https://visitor-badge.laobi.icu/badge?page_id=ramanaptr.ez-recyclerview" alt="visitor - ez recyclerview" />
   <br>
