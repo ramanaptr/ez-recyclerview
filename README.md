@@ -51,7 +51,7 @@ data class SampleData(
 ) : EzBaseData()
 ```
 
-Example Kotlin Code for Single Layout
+## Example Single Layout
 ```kotlin
 /**
  * You must extend the object "EzBaseData".
@@ -115,7 +115,7 @@ val rvSample = findViewById<EzRecyclerView<SampleData>>(R.id.rv_sample)
 and choose according to your convenience
 
 
-Example Kotlin Code for Multiple View
+## Example Multiple View
 ```kotlin
 private fun exampleEzRecycleMultipleLayout() {
 
